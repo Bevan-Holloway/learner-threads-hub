@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Reflections - Learner Threads</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f9ff; /* Consistent light background */
+            min-height: 100vh;
+        }
+
+        /* Main App Styles (now visible by default, launched from Hub) */
+        .main-app {
+            display: block; /* Changed from none to block */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0; /* Consistent with Hub */
+        }
+
+        .header {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            /* Removed position: relative; if not needed for *this* header's content */
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #bae6fd;
+            font-size: 1.1rem;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #14b8a6, #0891b2);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .content {
+            padding: 2rem;
+            min-height: 60vh;
+        }
+
+        .section-intro {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border-left: 4px solid #14b8a6;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-intro h2 {
+            color: #0f766e;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-intro p {
+            color: #0f766e;
+            line-height: 1.6;
+        }
+
+        .prompt-cards {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .prompt-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .prompt-card:hover {
+            background: #f0fdfa;
+            border-color: #14b8a6;
+            transform: translateY(-1px);
+        }
+
+        .prompt-card.selected {
+            background: #f0fdfa;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
+        }
+
+        .prompt-question {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .prompt-helper {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .dispositions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .disposition-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .disposition-card:hover {
+            border-color: #14b8a6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .disposition-card.selected {
+            border-color: #14b8a6;
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
+        }
+
+        .disposition-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .disposition-name {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+
+        .disposition-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .disposition-prompts {
+            background: #f0fdfa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #99f6e4;
+        }
+
+        .disposition-prompts h4 {
+            color: #0f766e;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .disposition-bullet {
+            color: #134e4a;
+            font-size: 0.875rem;
+            margin: 0.25rem 0;
+            padding-left: 1rem;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .file-upload-area:hover {
+            border-color: #14b8a6;
+            background-color: #f0fdfa;
+        }
+
+        .file-uploaded {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-direction: column;
+        }
+
+        .files-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .file-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-name {
+            color: #059669;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .file-remove {
+            color: #dc2626;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .file-remove:hover {
+            color: #b91c1c;
+        }
+
+        .file-preview {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .upload-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            color: white;
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+
+        .text-fields-container {
+            background: #f8fafc;
+            border-top: 2px solid #e2e8f0;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: inherit;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .input-guidance {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.6;
+        }
+
+        .reflection-preview {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .reflection-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .reflection-subtitle {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #0f766e;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .reflection-meta {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f0fdfa;
+            border-radius: 0.5rem;
+            border: 1px solid #14b8a6;
+        }
+
+        .reflection-meta-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .reflection-meta-label {
+            font-weight: 600;
+            color: #0f766e;
+            display: inline-block;
+            width: 60px;
+        }
+
+        .reflection-section {
+            margin-bottom: 2rem;
+            page-break-inside: avoid;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #14b8a6;
+        }
+
+        .reflection-section h3 {
+            color: #0f766e;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-top: -1.5rem;
+            padding: 1rem 1.5rem;
+            background: #14b8a6;
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .reflection-content {
+            color: #374151;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            font-size: 1rem;
+        }
+
+        .reflection-dispositions {
+            background: #f0fdfa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            border: 1px solid #14b8a6;
+        }
+
+        .reflection-dispositions strong {
+            color: #0f766e;
+            font-size: 1rem;
+        }
+
+        .navigation {
+            background: #f8fafc;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            border-top: 1px solid #e2e8f0;
+            border-radius: 0 0 0.75rem 0.75rem; /* Match card border radius */
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        /* Corrected footer styling, removed problematic element */
+        footer .copyright {
+            font-size: 0.75rem;
+            line-height: 1.5; /* Ensures proper spacing if on multiple lines */
+            display: block; /* Ensures it takes up full width for text-align */
+        }
+
+
+        /* Removed specific positioning for back-to-hub-button in app headers */
+        /* as it will now be in the main navigation */
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+            }
+
+            .text-fields-container {
+                padding: 1.5rem;
+            }
+
+            .dispositions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .files-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .reflection-preview, .reflection-preview * {
+                visibility: visible;
+            }
+            
+            .reflection-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 1rem;
+                background: white;
+                border: none;
+                box-shadow: none;
+            }
+            
+            .reflection-preview img {
+                max-width: 100% !important;
+                height: auto !important;
+                page-break-inside: avoid;
+            }
+            
+            @page {
+                margin: 1in;
+                size: letter;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mainApp" class="main-app">
+        <div class="container">
+            <div class="card">
+                <div class="header">
+                    <h1>My Learning Reflection</h1>
+                    <p>Capture and celebrate your own learning journey</p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Step 1 of 5</div>
+                </div>
+
+                <div class="content" id="content">
+                    </div>
+
+                <div class="navigation" id="navigation">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
+                        ← Previous
+                    </button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Next →
+                    </button>
+                </div>
+            </div>
+
+            <footer>
+                <p class="copyright">© Bevan Holloway | Learner Threads, powered by Smata</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentStep = 0;
+        let reflection = {
+            studentName: '',
+            date: '',
+            subject: '',
+            whatIDid: '',
+            evidenceFile: null,
+            evidenceFileName: '',
+            evidenceDescription: '',
+            learningStrengths: [],
+            learningStrengthsReflection: '',
+            selectedFuturePrompts: [],
+            whereThisTakesMe: ''
+        };
+
+        const totalSteps = 5;
+
+        const subjects = [
+            'Math',
+            'English/Language Arts',
+            'Science',
+            'Social Studies/History',
+            'Art/Creative',
+            'Music',
+            'Dance',
+            'Drama',
+            'Languages',
+            'Physical Education',
+            'Technology',
+            'Life Skills',
+            'Other'
+        ];
+
+        const dispositions = [
+            { 
+                name: 'Curiosity', 
+                icon: '🔍', 
+                description: 'Asking questions, exploring ideas, wondering about things',
+                prompts: [
+                    'Having a mind full of questions',
+                    'Enjoying researching',
+                    'Being amazed by what you \'find\'',
+                    'Exploring: things that seem odd, missing, \'how it works\', or other possibilities',
+                    'Feeling positive about your learning'
+                ]
+            },
+            { 
+                name: 'Persistence', 
+                icon: '💪', 
+                description: 'Sticking with challenges, not giving up when things get tough',
+                prompts: [
+                    'Putting in the time to practise',
+                    'Having a go, even when it\'s hard or difficult',
+                    'Reminding yourself of what you are trying to achieve',
+                    'Taking a break when you need one, and returning refreshed and with new ideas',
+                    'Thinking about the resources that can help you'
+                ]
+            },
+            { 
+                name: 'Imagination', 
+                icon: '💭', 
+                description: 'Trying creative approaches, thinking outside the box',
+                prompts: [
+                    'Being inventive and experimental',
+                    'Wondering and daydreaming',
+                    'Using metaphor, humour, and analogies',
+                    'Empathising with different perspectives',
+                    'Looking for other ways to make use of what you have done or learned'
+                ]
+            },
+            { 
+                name: 'Attention', 
+                icon: '🎯', 
+                description: 'Focusing deeply, concentrating on what matters',
+                prompts: [
+                    'Prioritising',
+                    'Using, and developing, strategies that help you focus',
+                    'Being observant',
+                    'Following what you find interesting in the task',
+                    'Tuning out distractions, \'locking in\''
+                ]
+            },
+            { 
+                name: 'Thinking', 
+                icon: '🧠', 
+                description: 'Making connections, analysing, reasoning through problems',
+                prompts: [
+                    'Enjoying \'hooking things up\' by looking for connections and associations',
+                    'Analysing, reasoning, evaluating, critiquing',
+                    'Examining the basis of a conclusion, understanding, or belief',
+                    'Testing and sharpening ideas',
+                    'Wondering if there might be more to it'
+                ]
+            },
+            { 
+                name: 'Collaboration', 
+                icon: '🤝', 
+                description: 'Working well with others, sharing ideas, helping teammates',
+                prompts: [
+                    'Taking on varying roles',
+                    'Knowing when to listen',
+                    'Expressing and defending your own thoughts calmly and clearly',
+                    'Being receptive and imitative',
+                    'Helping others by building on their contributions'
+                ]
+            },
+            { 
+                name: 'Craftsmanship', 
+                icon: '⭐', 
+                description: 'Caring about quality, wanting to do your best work',
+                prompts: [
+                    'Developing a \'nose\' for quality and what \'even better\' might look like',
+                    'Making honest judgements about how it\'s going',
+                    'Making good use of resources (including time and people)',
+                    'Being keen to improve by seeking and using feedback',
+                    'Tinkering, reviewing and revising, and developing your own style as a result'
+                ]
+            }
+        ];
+
+        const futurePrompts = [
+            {
+                question: 'What new questions do I have about this topic?',
+                helper: 'How has this learning opened up new avenues of inquiry or curiosity for you?',
+                details: [
+                    'What unanswered questions do you have now?',
+                    'What do you want to explore next?',
+                    'How has this work sparked new curiosity for you?'
+                ]
+            },
+            {
+                question: 'How can I apply this learning in a different context?',
+                helper: 'Think about how this skill or knowledge could be useful in another subject, at home, or in a hobby.',
+                details: [
+                    'Where else could you use this skill or knowledge?',
+                    'How could you teach this to someone else?',
+                    'What real-world problem could this help you solve?'
+                ]
+            },
+            {
+                question: 'What challenges did I overcome, and how can I use that strength again?',
+                helper: 'Reflect on moments of persistence and resilience. How can you apply those strategies next time you face difficulty?',
+                details: [
+                    'What was difficult about this work, and how did you push through?',
+                    'What specific strategies did you use to overcome challenges?',
+                    'How can you use this strength to tackle future difficult tasks?'
+                ]
+            },
+            {
+                question: 'How has this learning changed my thinking or perspective?',
+                helper: 'Consider how this experience has broadened your understanding or shifted your viewpoint.',
+                details: [
+                    'What new ideas do you have after doing this work?',
+                    'Has your opinion on anything changed? Why?',
+                    'How has this learning influenced your way of looking at the world?'
+                ]
+            },
+            {
+                question: 'What is one thing I could do to make my next learning even better?',
+                helper: 'Think about craftsmanship and continuous improvement. What small refinement could make a big difference?',
+                details: [
+                    'What\'s a small adjustment you could make for next time?',
+                    'How could you apply feedback to improve?',
+                    'What would "even better" look like for your next piece of work?'
+                ]
+            },
+            {
+                question: 'How did collaborating with others enhance my learning?',
+                helper: 'If you worked with others, reflect on the power of shared ideas and teamwork.',
+                details: [
+                    'What did you learn from listening to others?',
+                    'How did sharing your ideas help you?',
+                    'How can you be an even better collaborator next time?'
+                ]
+            }
+        ];
+
+
+        function init() {
+            renderStep();
+            updateProgress();
+            updateNavigation();
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                renderStep();
+                updateProgress();
+                updateNavigation();
+                // Scroll to top of the page
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+                updateProgress();
+                updateNavigation();
+                // Scroll to top of the page
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const percentage = ((currentStep + 1) / totalSteps) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `Step ${currentStep + 1} of ${totalSteps}`;
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (currentStep === totalSteps - 1) {
+                // Step 5 - Final review step with custom navigation
+                document.getElementById('navigation').innerHTML = `
+                    <button class="btn btn-secondary" onclick="previousStep()">
+                        ← Back to Edit
+                    </button>
+                    <button class="btn btn-primary" onclick="saveToPDF()">
+                        💾 Save My Reflection as PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="startNewReflection()">
+                        🔄 Start New Reflection
+                    </button>
+                    <button class="btn btn-secondary" onclick="goToHub()">
+                        🏠 Back to Hub
+                    </button>
+                `;
+            } else {
+                // Restore normal navigation for all other steps
+                document.getElementById('navigation').innerHTML = `
+                    <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
+                        ← Previous
+                    </button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Next →
+                    </button>
+                    <button class="btn btn-secondary" onclick="goToHub()" style="margin-left: auto;">
+                        🏠 Back to Hub
+                    </button>
+                `;
+                
+                // Update the restored buttons
+                const restoredPrevBtn = document.getElementById('prevBtn');
+                const restoredNextBtn = document.getElementById('nextBtn');
+                
+                restoredPrevBtn.style.display = currentStep === 0 ? 'none' : 'inline-flex';
+                
+                if (currentStep === totalSteps - 2) {
+                    restoredNextBtn.textContent = 'Complete Reflection';
+                    restoredNextBtn.onclick = nextStep;
+                } else {
+                    restoredNextBtn.textContent = 'Next →';
+                    restoredNextBtn.onclick = nextStep;
+                }
+            }
+        }
+
+        function updateReflection(field, value) {
+            reflection[field] = value;
+        }
+
+        function toggleStrength(strength) {
+            const index = reflection.learningStrengths.indexOf(strength);
+            if (index > -1) {
+                reflection.learningStrengths.splice(index, 1);
+            } else {
+                reflection.learningStrengths.push(strength);
+            }
+            renderStep();
+        }
+
+        function toggleFuturePrompt(prompt) {
+            const index = reflection.selectedFuturePrompts.indexOf(prompt);
+            if (index > -1) {
+                reflection.selectedFuturePrompts.splice(index, 1);
+            } else {
+                reflection.selectedFuturePrompts.push(prompt);
+            }
+            renderStep();
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size must be less than 10MB');
+                    return;
+                }
+                
+                const allowedTypes = ['image/', 'video/', 'audio/'];
+                if (!allowedTypes.some(type => file.type.startsWith(type))) {
+                    alert('This file type is not supported. Please upload images, videos, or audio files.');
+                    return;
+                }
+
+                reflection.evidenceFile = file;
+                reflection.evidenceFileName = file.name;
+                renderStep();
+            }
+        }
+
+        function removeFile() {
+            if (reflection.evidenceFile) {
+                URL.revokeObjectURL(reflection.evidenceFile.url);
+            }
+            reflection.evidenceFile = null;
+            reflection.evidenceFileName = '';
+            renderStep();
+        }
+
+        function saveToPDF() {
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            async function generateAndPrint() {
+                let imagesHtml = '';
+                
+                if (reflection.evidenceFile && reflection.evidenceFile.type.startsWith('image/')) {
+                    try {
+                        const base64Data = await fileToBase64(reflection.evidenceFile);
+                        imagesHtml = `<div style="text-align: center; margin: 1rem 0; page-break-inside: avoid;"><img src="${base64Data}" alt="Learning Evidence" style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;"></div>`;
+                    } catch (error) {
+                        imagesHtml = `<div style="background-color: #dbeafe; border: 1px solid #93c5fd; padding: 0.75rem; border-radius: 6px; margin: 1rem; font-size: 13px; color: #1e40af;">📎 Evidence: ${reflection.evidenceFileName}</div>`;
+                    }
+                } else if (reflection.evidenceFile) {
+                    const fileType = reflection.evidenceFile.type.startsWith('video/') ? 'Video' : 'Audio';
+                    imagesHtml = `<div style="background-color: #dbeafe; border: 1px solid #93c5fd; padding: 0.75rem; border-radius: 6px; margin: 1rem; font-size: 13px; color: #1e40af;">📎 Evidence: ${fileType}: ${reflection.evidenceFileName}</div>`;
+                }
+
+                const printContent = `
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #0f172a; max-width: 8.5in; margin: 0 auto; padding: 0.5rem; background: white;">
+                        <div style="text-align: center; margin-bottom: 1rem;">
+                            <div style="font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Learning Reflection</div>
+                            <div style="font-size: 18px; font-weight: 500; color: #14b8a6; margin-bottom: 1rem;">${reflection.studentName}</div>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #14b8a6; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
+                            <div style="margin-bottom: 0.25rem; font-size: 14px;">
+                                <span style="font-weight: 600; color: #0f766e; display: inline-block; width: 60px;">Date:</span> 
+                                <span style="color: #374151;">${formatDate(reflection.date)}</span>
+                            </div>
+                            <div style="font-size: 14px;">
+                                <span style="font-weight: 600; color: #0f766e; display: inline-block; width: 60px;">Subject:</span> 
+                                <span style="color: #374151;">${reflection.subject}</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 18px;">📝</span>
+                                What I Did
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
+                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap; margin-bottom: 0.75rem;">${reflection.whatIDid}</div>
+                                ${imagesHtml}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 18px;">⭐</span>
+                                How I Grew as a Learner
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
+                                ${reflection.learningStrengths.length > 0 ? `
+                                <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #14b8a6; padding: 0.75rem; border-radius: 4px; margin-bottom: 0.75rem;">
+                                    <div style="font-weight: 600; color: #0f766e; margin-bottom: 0.25rem;">My learning was powered by:</div>
+                                    <div style="color: #134e4a; font-style: italic;">${reflection.learningStrengths.join(' • ')}</div>
+                                </div>
+                                ` : ''}
+                                ${reflection.learningStrengthsReflection ? `
+                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.learningStrengthsReflection}</div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 18px;">🚀</span>
+                                Where This Could Take Me
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
+                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.whereThisTakesMe}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #64748b;">
+                            <div style="font-weight: 600; color: #14b8a6; margin-bottom: 0.125rem;">Learner Threads</div>
+                            <div>© Bevan Holloway | Student Learning Reflection | Powered by Smata</div>
+                        </div>
+                    </div>
+                `;
+
+                // Create a temporary container
+                const printContainer = document.createElement('div');
+                printContainer.innerHTML = printContent;
+                printContainer.style.display = 'none';
+                printContainer.id = 'print-content';
+                
+                // Remove any existing print content
+                const existing = document.getElementById('print-content');
+                if (existing) {
+                    existing.remove();
+                }
+                
+                // Add to document
+                document.body.appendChild(printContainer);
+                
+                // Create print styles
+                const printStyles = `
+                    <style id="print-styles">
+                        @media print {
+                            body * {
+                                visibility: hidden;
+                            }
+                            #print-content, #print-content * {
+                                visibility: visible;
+                            }
+                            #print-content {
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 100%;
+                                display: block !important;
+                            }
+                            
+                            /* Ensure backgrounds and colours print */
+                            #print-content * {
+                                -webkit-print-color-adjust: exact !important;
+                                color-adjust: exact !important;
+                                print-color-adjust: exact !important;
+                            }
+                            
+                            @page {
+                                margin: 1in;
+                                size: letter;
+                            }
+                        }
+                    </style>
+                `;
+                
+                // Remove existing print styles
+                const existingStyles = document.getElementById('print-styles');
+                if (existingStyles) {
+                    existingStyles.remove();
+                }
+                
+                // Add print styles to head
+                document.head.insertAdjacentHTML('beforeend', printStyles);
+                
+                // Show the content for printing
+                printContainer.style.display = 'block';
+                
+                // Trigger print
+                setTimeout(() => {
+                    window.print();
+                    
+                    // Clean up after printing
+                    setTimeout(() => {
+                        printContainer.remove();
+                        const styles = document.getElementById('print-styles');
+                        if (styles) styles.remove();
+                    }, 1000);
+                }, 100);
+            }
+
+            generateAndPrint();
+        }
+
+        function startNewReflection() {
+            reflection = {
+                studentName: '',
+                date: '',
+                subject: '',
+                whatIDid: '',
+                evidenceFile: null,
+                evidenceFileName: '',
+                evidenceDescription: '',
+                learningStrengths: [],
+                learningStrengthsReflection: '',
+                selectedFuturePrompts: [],
+                whereThisTakesMe: ''
+            };
+            currentStep = 0;
+            init();
+        }
+
+        function goToHub() {
+            window.location.href = 'index.html'; // Points to the new hub homepage
+        }
+
+        function renderStep() {
+            const content = document.getElementById('content');
+            
+            switch (currentStep) {
+                case 0:
+                    content.innerHTML = renderSetupStep();
+                    break;
+                case 1:
+                    content.innerHTML = renderWhatIDidStep();
+                    break;
+                case 2:
+                    content.innerHTML = renderLearningStrengthsStep();
+                    break;
+                case 3:
+                    content.innerHTML = renderWhereThisTakesMeStep();
+                    break;
+                case 4:
+                    content.innerHTML = renderReviewStep();
+                    break;
+            }
+        }
+
+        function renderSetupStep() {
+            return `
+                <div class="section-intro">
+                    <h2>Let's Start Your Learning Reflection</h2>
+                    <p>Share a bit about yourself and what you've been working on. This helps create a personalised reflection of your learning journey.</p>
+                </div>
+
+                <div class="text-fields-container">
+                    <div class="form-group">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-input" value="${reflection.studentName}" 
+                               onchange="updateReflection('studentName', this.value)">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-input" value="${reflection.date}"
+                               onchange="updateReflection('date', this.value)">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject Area</label>
+                        <div class="input-guidance">What subject were you working on?</div>
+                        <select class="form-select" value="${reflection.subject}"
+                                onchange="updateReflection('subject', this.value)">
+                            <option value="">Select subject...</option>
+                            ${subjects.map(subject => 
+                                `<option value="${subject}" ${reflection.subject === subject ? 'selected' : ''}>${subject}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWhatIDidStep() {
+            return `
+                <div class="section-intro">
+                    <h2>What I Did</h2>
+                    <p>Describe what you worked on. Be specific about what you actually did and why you were doing it.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Add Evidence (Optional)</label>
+                    <div class="file-upload-area">
+                        ${reflection.evidenceFile ? `
+                            <div class="file-uploaded">
+                                <div class="file-info">
+                                    <span class="file-name">${reflection.evidenceFileName}</span>
+                                    <span class="file-remove" onclick="removeFile()">Remove</span>
+                                </div>
+                                ${reflection.evidenceFile.type.startsWith('image/') ? 
+                                    `<img src="${URL.createObjectURL(reflection.evidenceFile)}" alt="Evidence" class="file-preview">` : 
+                                reflection.evidenceFile.type.startsWith('video/') ? 
+                                    `<video src="${URL.createObjectURL(reflection.evidenceFile)}" controls class="file-preview"></video>` :
+                                reflection.evidenceFile.type.startsWith('audio/') ? 
+                                    `<audio src="${URL.createObjectURL(reflection.evidenceFile)}" controls style="width: 200px;"></audio>` : ''}
+                            </div>
+                        ` : `
+                            <div>
+                                <input type="file" accept="image/*,video/*,audio/*"
+                                        onchange="handleFileUpload(event)" style="display: none;" id="evidence-upload">
+                                <label for="evidence-upload" class="upload-button">📎 Choose File</label>
+                                <p style="margin-top: 0.5rem; color: #64748b;">
+                                    Upload a photo of your work, a video, or audio recording (max 10MB)
+                                </p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+
+                <div class="text-fields-container">
+                    <div class="form-group">
+                        <label class="form-label">Describe what you worked on</label>
+                        <div class="input-guidance">What was the assignment, project, or task? Why were you doing it? How long have you been working on it? Is this the end of that learning, or are you part way through? If you are part way, is this reflection about the start, middle, or towards the end?</div>
+                        <textarea class="form-textarea" rows="6" 
+                                    data-field="whatIDid"
+                                    onchange="updateReflection('whatIDid', this.value)">${reflection.whatIDid}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLearningStrengthsStep() {
+            return `
+                <div class="section-intro">
+                    <h2>How I Grew as a Learner</h2>
+                    <p>What was your learning powered by? Select the ones that describe how you learned during this work, then use the prompts to write about how you used them.</p>
+                </div>
+
+                <div class="dispositions-grid">
+                    ${dispositions.map(disposition => `
+                        <div class="disposition-card ${reflection.learningStrengths.includes(disposition.name) ? 'selected' : ''}"
+                               onclick="toggleStrength('${disposition.name}')">
+                            <div class="disposition-icon">${disposition.icon}</div>
+                            <div class="disposition-name">${disposition.name}</div>
+                            <div class="disposition-desc">${disposition.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="text-fields-container">
+                    ${reflection.learningStrengths.length > 0 ? `
+                        <div class="disposition-prompts">
+                            <h4 style="color: #0f766e; margin-bottom: 1rem;">Ideas for your reflection:</h4>
+                            ${dispositions.filter(d => reflection.learningStrengths.includes(d.name)).map(disposition => `
+                                    <div style="margin-bottom: 1rem; padding: 1rem; background: #f0fdfa; border-radius: 0.5rem; border-left: 3px solid #14b8a6;">
+                                        <div style="color: #0f766e; font-weight: 600; margin-bottom: 0.5rem;">When ${disposition.name.toLowerCase()} powers your learning, you might find yourself:</div>
+                                        ${disposition.prompts.map(prompt => `
+                                            <div style="color: #134e4a; font-size: 0.875rem; margin: 0.25rem 0; padding-left: 1rem;">• ${prompt}</div>
+                                        `).join('')}
+                                    </div>
+                                `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="form-group">
+                        <label class="form-label">How I Used These to Power My Learning</label>
+                        <div class="input-guidance">Write about how they powered your learning: e.g., "Curiosity helped power my learning because I …" You might also note things like: how this is the first time your learning has been powered this way, or that this is a power that is strong in you because you use it a lot, or that you are trying a new way of powering your learning and how you found it.</div>
+                        <textarea class="form-textarea" rows="6" 
+                                    onchange="updateReflection('learningStrengthsReflection', this.value)">${reflection.learningStrengthsReflection || ''}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWhereThisTakesMeStep() {
+            return `
+                <div class="section-intro">
+                    <h2>Where This Could Take Me</h2>
+                    <p>Think about the future. Pick a couple of these questions to guide your reflection:</p>
+                </div>
+
+                <div class="dispositions-grid">
+                    ${futurePrompts.map(prompt => `
+                        <div class="disposition-card ${reflection.selectedFuturePrompts.includes(prompt.question) ? 'selected' : ''}"
+                               onclick="toggleFuturePrompt('${prompt.question}')">
+                            <div class="disposition-icon">🤔</div>
+                            <div class="disposition-name">${prompt.question}</div>
+                            <div class="disposition-desc">${prompt.helper}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="text-fields-container">
+                    ${reflection.selectedFuturePrompts.length > 0 ? `
+                        <div class="disposition-prompts">
+                            <h4 style="color: #0f766e; margin-bottom: 1rem;">Ideas for your reflection:</h4>
+                            ${reflection.selectedFuturePrompts.map(selectedQuestion => {
+                                const prompt = futurePrompts.find(p => p.question === selectedQuestion);
+                                return prompt ? `
+                                    <div style="margin-bottom: 1rem; padding: 1rem; background: #f0fdfa; border-radius: 0.5rem; border-left: 3px solid #14b8a6;">
+                                        <div style="color: #0f766e; font-weight: 600; margin-bottom: 0.5rem;">${selectedQuestion}</div>
+                                        ${prompt.details.map(detail => `
+                                            <div style="color: #134e4a; font-size: 0.875rem; margin: 0.25rem 0; padding-left: 1rem;">• ${detail}</div>
+                                        `).join('')}
+                                    </div>
+                                ` : '';
+                            }).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="form-group">
+                        <label class="form-label">Future Possibilities</label>
+                        <div class="input-guidance">Choose a couple of the questions above to guide your reflection...</div>
+                        <textarea class="form-textarea" rows="6" 
+                                    onchange="updateReflection('whereThisTakesMe', this.value)">${reflection.whereThisTakesMe}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderReviewStep() {
+            return `
+                <div class="section-intro">
+                    <h2>Review Your Learning Reflection</h2>
+                    <p>Here's your complete learning reflection. Review it carefully, and if you need to make any changes, use the "Back to Edit" button. When you're happy with it, save it as a PDF.</p>
+                </div>
+
+                <div class="reflection-preview">
+                    <div class="reflection-title">Learning Reflection</div>
+                    <div class="reflection-subtitle">${reflection.studentName}</div>
+                    <div class="reflection-meta">
+                        <div class="reflection-meta-item">
+                            <span class="reflection-meta-label">Date:</span> ${formatDate(reflection.date)}
+                        </div>
+                        <div class="reflection-meta-item">
+                            <span class="reflection-meta-label">Subject:</span> ${reflection.subject}
+                        </div>
+                    </div>
+
+                    <div class="reflection-section">
+                        <h3>What I Did</h3>
+                        <div class="reflection-content">${reflection.whatIDid}</div>
+                        ${reflection.evidenceFile ? `
+                        <div style="margin-top: 1rem;">
+                            ${reflection.evidenceFile.type.startsWith('image/') ? `
+                                <div style="text-align: center; margin: 1rem 0;">
+                                    <img src="${URL.createObjectURL(reflection.evidenceFile)}" alt="Learning Evidence" 
+                                            style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+                                </div>
+                            ` : `
+                                <div style="background: #f0fdfa; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0; border: 1px solid #14b8a6;">
+                                    <span style="color: #0f766e; font-weight: 500;">📎 Evidence:</span> 
+                                    <span style="color: #64748b;">${reflection.evidenceFileName}</span>
+                                </div>
+                            `}
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="reflection-section">
+                        <h3>How I Grew as a Learner</h3>
+                        ${reflection.learningStrengths.length > 0 ? `
+                        <div class="reflection-dispositions">
+                            <strong>My learning was powered by:</strong> ${reflection.learningStrengths.join(', ')}
+                        </div>
+                        ` : ''}
+                        ${reflection.learningStrengthsReflection ? `
+                        <div class="reflection-content">${reflection.learningStrengthsReflection}</div>
+                        ` : ''}
+                    </div>
+
+                    <div class="reflection-section">
+                        <h3>Where This Could Take Me</h3>
+                        <div class="reflection-content">${reflection.whereThisTakesMe}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            return date.toLocaleDateString('en-NZ', options); // Using en-NZ for consistent date format
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

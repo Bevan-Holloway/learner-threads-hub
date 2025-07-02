@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learner Threads Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f9ff; /* Consistent light background */
+            min-height: 100vh;
+        }
+
+        /* Access Gate Styles - Consistent with previous apps */
+        .access-gate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            background: linear-gradient(135deg, #e0f2f7, #ccfbf1); /* Subtle gradient for background */
+            transition: opacity 0.5s ease-out; /* For fade out */
+        }
+
+        .access-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #e2e8f0; /* Soft border */
+        }
+
+        .access-logo {
+            width: 100px; /* Adjust size as needed, e.g., 100px for prominence */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 auto 1.5rem; /* More space below logo */
+            display: block; /* Ensures margin auto works */
+        }
+
+        .access-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .access-subtitle {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .access-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+            background-color: #f8fafc;
+            color: #374151;
+        }
+
+        .access-input:focus {
+            outline: none;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .access-button {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .access-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
+        }
+
+        .access-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .access-help {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Hub Content Styles */
+        .hub-content {
+            display: none; /* Hidden by default */
+            min-height: 100vh;
+            padding: 2rem;
+            background-color: #f0f9ff; /* Consistent light background */
+            opacity: 0; /* Start with 0 opacity for fade in */
+            transition: opacity 0.5s ease-out; /* For fade in */
+        }
+
+        .hub-header {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hub-header h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .hub-header p {
+            font-size: 1rem;
+            color: #bae6fd;
+        }
+
+        .hub-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hub-option-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none; /* Remove underline for anchor tag */
+            color: inherit; /* Ensure text color is inherited, not default blue for links */
+        }
+
+        .hub-option-card:hover {
+            border-color: #14b8a6;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(20, 184, 166, 0.2);
+        }
+
+        .hub-option-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #0891b2;
+        }
+
+        .hub-option-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+        }
+
+        .hub-option-description {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-top: 3rem;
+        }
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        footer .copyright {
+            font-size: 0.75rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .access-card {
+                padding: 2rem;
+            }
+            .access-title {
+                font-size: 1.8rem;
+            }
+            .hub-header {
+                padding: 1.25rem 1.5rem; /* Even more compact on mobile */
+                margin-bottom: 1.5rem;
+            }
+            .hub-header h1 {
+                font-size: 1.5rem;
+            }
+            .hub-options-grid {
+                grid-template-columns: 1fr;
+            }
+            .hub-option-card {
+                padding: 1.5rem;
+            }
+            .hub-option-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .access-card {
+                padding: 1.5rem;
+            }
+            .access-input, .access-button {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+            .hub-header {
+                padding: 1rem 1.25rem;
+            }
+            .hub-header h1 {
+                font-size: 1.6rem;
+            }
+            .hub-option-icon {
+                font-size: 3rem;
+            }
+            .hub-option-title {
+                font-size: 1.3rem;
+            }
+            .hub-option-description {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="accessGate" class="access-gate">
+        <div class="access-card">
+            <img src="learnerthreads_logo.png" class="access-logo" alt="Learner Threads Logo">
+            <h1 class="access-title">Learner Threads Hub</h1>
+            <p class="access-subtitle">Unlock your learning potential with powerful tools designed just for you.</p>
+            
+            <input type="text" 
+                   id="accessCode" 
+                   class="access-input" 
+                   placeholder="Enter your school's access code..."
+                   onkeypress="handleAccessKeyPress(event)">
+            
+            <button class="access-button" onclick="checkAccess()">
+                Access My Tools
+            </button>
+            
+            <div id="accessError" class="access-error">
+                Invalid access code. Please check with your teacher or school.
+            </div>
+            
+            <div class="access-help">
+                <strong>Need help?</strong><br>
+                Your school will provide you with a unique access code.<br>
+                This ensures a safe and ad-free learning environment, with no personal data collected.
+            </div>
+        </div>
+    </div>
+
+    <div id="hubContent" class="hub-content">
+        <div class="hub-header">
+            <h1>Welcome to Your Learner Threads Hub!</h1>
+            <p>Choose a tool to help you grow your learning power today.</p>
+        </div>
+
+        <div class="hub-options-grid">
+            <a href="learning_navigator.html" class="hub-option-card">
+                <span class="hub-option-icon">🧭</span>
+                <div class="hub-option-title">Learning Navigator</div>
+                <div class="hub-option-description">
+                    Feeling stuck? Get instant strategies to find your next learning move in any subject.
+                </div>
+            </a>
+
+            <a href="learning_reflections.html" class="hub-option-card">
+                <span class="hub-option-icon">✨</span>
+                <div class="hub-option-title">Learning Reflections</div>
+                <div class="hub-option-description">
+                    Capture your learning journey, celebrate your strengths, and see how you're growing.
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p class="copyright">© Bevan Holloway | Learner Threads, powered by Smata</p>
+    </footer>
+
+    <script>
+        // Valid access codes - for demonstration (these remain the same)
+        const validCodes = new Set(['DEMO2025', 'NAVIGATE2025', 'SCHOOLALPHA', 'REFLECT2025']); 
+        
+        function checkAccess() {
+            const code = document.getElementById('accessCode').value.trim().toUpperCase();
+            const errorDiv = document.getElementById('accessError');
+
+            if (validCodes.has(code)) {
+                // Set session storage item to remember access
+                sessionStorage.setItem('hub_accessed', 'true');
+
+                // Fade out access gate
+                document.getElementById('accessGate').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('accessGate').style.display = 'none';
+                    // Show hub content with fade-in
+                    const hubContent = document.getElementById('hubContent');
+                    hubContent.style.display = 'block';
+                    hubContent.style.opacity = '1';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 500); // Matches CSS transition duration
+            } else {
+                errorDiv.style.display = 'block';
+                document.getElementById('accessCode').style.borderColor = '#dc2626';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                    document.getElementById('accessCode').style.borderColor = '#e2e8f0';
+                }, 3000);
+            }
+        }
+
+        function handleAccessKeyPress(event) {
+            if (event.key === 'Enter') {
+                checkAccess();
+            }
+        }
+
+        // --- NEW/UPDATED LOGIC FOR SESSION STORAGE ON PAGE LOAD ---
+        // This ensures that if the user returns to index.html (the hub) from a sub-app
+        // during the same session, they go straight to the app options.
+        document.addEventListener('DOMContentLoaded', () => {
+            const accessGate = document.getElementById('accessGate');
+            const hubContent = document.getElementById('hubContent');
+
+            if (sessionStorage.getItem('hub_accessed') === 'true') {
+                accessGate.style.display = 'none';
+                hubContent.style.display = 'block';
+                // Add a slight delay for opacity transition to look smoother on direct load
+                // Or remove transition from hubContent for instant display if prefered
+                setTimeout(() => { hubContent.style.opacity = '1'; }, 10); 
+            } else {
+                accessGate.style.display = 'flex'; // Ensure it's visible by default if not accessed
+                accessGate.style.opacity = '1';
+                hubContent.style.display = 'none';
+                hubContent.style.opacity = '0';
+            }
+        });
+    </script>
+</body>
+</html>
