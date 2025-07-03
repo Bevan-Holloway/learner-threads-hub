@@ -244,7 +244,7 @@
             background: #0891b2;
         }
         
-        /* Removed .prompt-type .info-icon CSS as the icon and modal are removed */
+        /* Removed .prompt-type .info-icon CSS as the modal is removed */
 
         /* Modal for Hand/Heart/Head explanation - Removed HTML */
         /* These CSS rules for modal are now unused as the modal HTML is removed */
@@ -490,6 +490,7 @@
         footer .copyright {
             font-size: 0.75rem;
             line-height: 1.5; /* Ensures proper spacing if on multiple lines */
+            text-align: center; /* Centered for the footer */
             display: block; /* Ensures it takes up full width for text-align */
         }
 
@@ -616,7 +617,8 @@
                 font-size: 0.85rem;
                 padding: 0.6rem 1rem;
             }
-        </style>
+        }
+    </style>
 </head>
 <body>
     <div id="mainApp" class="main-app">
@@ -628,6 +630,10 @@
                 </div>
 
                 <div id="introAndSubjectStep" class="step-container">
+                    <div class="nav-buttons-top" style="text-align: right; margin-bottom: 1rem;">
+                        <button class="nav-button secondary" onclick="goToHub()">Back to Hub</button>
+                    </div>
+
                     <div class="intro-section" id="initialIntro">
                         <h2>How to use your Learning Navigator</h2>
                         <p>This tool helps you figure out your next move when you're feeling a bit stuck. It connects your work in different subjects to powerful ways of learning.</p>
@@ -687,7 +693,10 @@
                 </div>
 
                 <div id="dispositionStep" class="step-container" style="display: none;">
-                    <a href="#" class="back-link" onclick="showIntroAndSubjectStep()">← Back to subjects</a>
+                    <div class="nav-buttons-top" style="text-align: right; margin-bottom: 1rem;">
+                        <a href="#" class="back-link nav-button secondary" onclick="showIntroAndSubjectStep()">← Back to subjects</a>
+                        <button class="nav-button secondary" onclick="goToHub()" style="margin-left: 1rem;">Back to Hub</button>
+                    </div>
                     <h2 class="step-title">Which learning power do you need right now?</h2>
                     <p class="step-description">Choose a "Magnificent Seven" disposition that feels right for getting unstuck.</p>
                     
@@ -731,7 +740,10 @@
                 </div>
 
                 <div id="promptsStep" class="step-container" style="display: none;">
-                    <a href="#" class="back-link" onclick="showDispositionStep()">← Choose a different learning power</a>
+                    <div class="nav-buttons-top" style="text-align: right; margin-bottom: 1rem;">
+                        <a href="#" class="back-link nav-button secondary" onclick="showDispositionStep()">← Choose a different learning power</a>
+                        <button class="nav-button secondary" onclick="goToHub()" style="margin-left: 1rem;">Back to Hub</button>
+                    </div>
                     
                     <div class="teacher-reminder">
                         <div class="teacher-reminder-title">💡 Share Your Learning Journey!</div>
@@ -762,17 +774,16 @@
                     <div class="prompts-container" id="promptsContainer">
                         </div>
 
-                    <div class="navigation">
+                    <div class="navigation" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
                         <button class="nav-button secondary" onclick="showDispositionStep()">Try Different Power</button>
-                        <button class="nav-button primary" onclick="goToHub()">Back to Hub</button>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p class="copyright">© Bevan Holloway | Learner Threads, powered by Smata</p>
+        <p class="copyright" style="text-align: center;">© Bevan Holloway | Learner Threads, powered by Smata</p>
     </footer>
 
     <script>
@@ -781,7 +792,7 @@
             english: {
                 curiosity: [
                     { type: 'Hand', text: 'Act out a scene or dialogue to discover what the characters are really feeling', instruction: 'Stand up and physically act out the scene. Use gestures, facial expressions, and different voices. Notice what you discover about the characters when you embody them.' },
-                    { type: 'Heart', text: 'Find a line that makes you feel something strong - explore why it affects you', instruction: 'Read through until something makes you react emotionally. Write down exactly what you felt and try to explain why those specific words triggered that feeling.' },
+                    { type: 'Heart', text: 'Find a line that makes you feel something strong - explore why it affects you', instruction: 'Read through until something makes you react emotionally. Write down exactly what you felt and try to explain why why those specific words triggered that feeling.' },
                     { type: 'Head', text: "Research the historical context or author's background for this text", instruction: 'Look up when this was written, what was happening in the world then, and key facts about the author\'s life. Connect what you find to the text.' },
                     { type: 'Hand', text: 'Create a visual map of all the questions this text raises for you', instruction: 'Draw or write your main question in the center, then branch out with related questions. Use colors, arrows, and symbols to show connections.' },
                     { type: 'Heart', text: "Interview someone about their interpretation - what do they see that you don't?", instruction: 'Ask a friend, family member, or classmate to read the same section. Interview them about their thoughts and compare perspectives.' },
@@ -827,7 +838,7 @@
                     { type: 'Head', text: 'Find evidence in the text to support or challenge your interpretation', instruction: 'Look for specific quotes, examples, or details that prove your point. Also look for evidence that might contradict your view. What does the text actually say.' },
                     { type: 'Heart', text: 'Consider multiple perspectives - how might different readers interpret this?', instruction: 'Think about how someone from a different background, age, or culture might read this. What would they focus on? What might they disagree with.' },
                     { type: 'Hand', text: 'Create a visual organizer to connect themes, characters, or ideas', instruction: 'Draw a mind map, chart, or diagram showing how different elements connect. Use colors, arrows, and symbols to show relationships.' },
-                    { type: 'Head', text: 'Analyse the author\'s word choices and their effects on meaning', instruction: 'Pick key words or phrases and ask: Why this word instead of a synonym? How would the meaning change with different word choices.' },
+                    { type: 'Head', text: 'Analyze the author\'s word choices and their effects on meaning', instruction: 'Pick key words or phrases and ask: Why this word instead of a synonym? How would the meaning change with different word choices.' },
                     { type: 'Heart', text: 'Explore the deeper themes and what the author might be saying about life', instruction: 'Look beyond the surface story. What big ideas about humanity, society, or existence is the author exploring? What\'s their message.' },
                     { type: 'Hand', text: 'Compare this text to others by creating charts or diagrams', instruction: 'Make a comparison chart showing similarities and differences with other texts you\'ve read. Focus on themes, characters, or techniques.' },
                     { type: 'Head', text: 'Question the text - what assumptions does it make? What\'s left unsaid?', instruction: 'Challenge the text. What does the author assume you already know or believe? What perspectives or voices are missing from the story.' },
@@ -909,7 +920,7 @@
                     { type: 'Head', text: 'Compare different methods for solving the same type of problem', instruction: 'Try solving the same problem using two different approaches. Which method feels more natural? Which is more efficient? What do you learn from comparing them.' },
                     { type: 'Heart', text: 'Reflect on your problem-solving process - what worked, what didn\'t?', instruction: 'After solving (or attempting) a problem, think about your approach. What strategies helped? Where did you get stuck? What would you do differently next time.' },
                     { type: 'Hand', text: 'Create multiple representations - symbolic, visual, and verbal', instruction: 'Express the same mathematical idea in different ways: write it as an equation, draw a picture or graph, and explain it in words. See how they connect.' },
-                    { type: 'Head', text: 'Analyse your mistakes to understand where your thinking went off track', instruction: 'When you make an error, don\'t just erase it. Study what went wrong, understand why, and use that knowledge to avoid similar mistakes in the future.' },
+                    { type: 'Head', text: 'Analyze your mistakes to understand where your thinking went off track', instruction: 'When you make an error, don\'t just erase it. Study what went wrong, understand why, and use that knowledge to avoid similar mistakes in the future.' },
                     { type: 'Heart', text: 'Question assumptions and test your mathematical reasoning', instruction: 'Ask yourself: "Why do I think this is true?" "What if I tried it differently?" "Does this always work?" Challenge your own thinking and test your ideas.' },
                     { type: 'Head', text: 'Construct logical arguments and mathematical proofs for your solutions', instruction: 'Practice explaining not just what you did, but why it works. Can you prove your method is correct? Can you convince someone else that your reasoning is sound.' }
                 ],
@@ -973,7 +984,7 @@
                     { type: 'Heart', text: 'Identify the most intriguing aspect of the phenomenon and start there', instruction: 'Look for what genuinely interests or surprises you about this scientific concept. Use that natural curiosity as your starting point for deeper investigation.' },
                     { type: 'Head', text: 'Concentrate on the key variables in your experiment or observation', instruction: 'Identify what you\'re changing (independent variable) and what you\'re measuring (dependent variable). Focus your attention on these key elements and how they relate.' },
                     { type: 'Hand', text: 'Use tools like timers, measuring devices, or magnifiers to maintain focus', instruction: 'Let tools help you stay focused. Set timers for observation periods, use rulers for precise measurements, or use magnifying glasses to see details more clearly.' },
-                    { type: 'Heart', text: 'Connect with your natural sense of wonder about how things work', instruction: 'Tap into your childlike curiosity. Let yourself be amazed by the fact that you\'re learning how the universe actually works. Science is incredible!' },
+                    { type: 'Heart', text: 'Connect with your natural sense of wonder about how things work', instruction: 'Tap into your childlike curiosity. Let yourself be amazed by the fact that you\'re learning how the universe actually works. Let curiosity and wonder motivate you to keep going.' },
                     { type: 'Head', text: 'Focus on one scientific question at a time rather than multiple questions', instruction: 'Resist the urge to investigate everything at once. Choose one clear, specific question and focus all your attention on understanding that one thing well.' },
                     { type: 'Hand', text: 'Create detailed, focused observations through drawing or note-taking', instruction: 'Use detailed scientific drawings and written observations. The act of drawing or writing forces you to look more carefully and notice details you might otherwise miss.' },
                     { type: 'Heart', text: 'Pay attention to unexpected results - they often lead to discoveries', instruction: 'When something doesn\'t go as expected, don\'t ignore it. The most interesting discoveries often come from unexpected results. Focus on what surprises you.' }
@@ -1199,7 +1210,7 @@
                     { type: 'Head', text: 'Participate in online technical forums or communities to ask/answer questions', instruction: 'Engage with online tech communities. Ask specific questions when you\'re stuck, and try to answer others\' questions when you can. Sharing knowledge helps everyone grow.' },
                     { type: 'Heart', text: 'Offer constructive feedback on peers\' technical projects and designs', instruction: 'When reviewing someone\'s code or design, be specific and helpful. Point out what works well and suggest concrete improvements. Focus on the project, not the person.' },
                     { type: 'Hand', text: 'Collaborate on designing a user experience (UX) for an app/website', instruction: 'Work with others to create wireframes, mockups, or user flow diagrams for a digital product. Combine your ideas to design an intuitive and pleasant user experience.' },
-                    { type: 'Head', text: 'Break down large technical tasks into smaller, assignable components for a team', instruction: 'For group projects, clearly define individual tasks and assign them. Ensure everyone understands their role and how their piece fits into the larger project.' }
+                    { type: 'Head', text: 'Break down large technical tasks into smaller, assignable components for a team', instruction: 'For group projects, clearly define individual tasks and and assign them. Ensure everyone understands their role and how their piece fits into the larger project.' }
                 ],
                 craftsmanship: [
                     { type: 'Head', text: 'Write clean, readable, and well-documented code', instruction: 'Even if it works, is your code easy for others (and future you!) to understand? Use meaningful variable names, consistent formatting, and clear comments explaining complex parts.' },
@@ -1247,7 +1258,7 @@
                     { type: 'Head', text: 'Analyse the structure of a musical piece, script, or choreography', instruction: 'Break down the piece: What are the different sections? How do they relate? Where are the repetitions, variations, or climaxes? Understand the underlying framework.' },
                     { type: 'Heart', text: 'Reflect on how your performance choices impact the audience\'s experience', instruction: 'Imagine you\'re in the audience. How do your gestures, vocal tone, or musical phrasing make them feel? Does it convey your intended message? Adjust based on desired impact.' },
                     { type: 'Hand', text: 'Use a score, script, or choreographic notation to understand the artist\'s intentions', instruction: 'Study the written form of your piece. What markings, directions, or symbols did the composer/writer/choreographer include? How do these guide your interpretation.' },
-                    { type: 'Head', text: 'Compare different interpretations or performances of the same piece', instruction: 'Watch multiple versions of a play or listen to different recordings of a song. What creative choices did each performer make? What do you learn from comparing their approaches.' },
+                    { type: 'Head', text: 'Compare different interpretations or performances of the same piece', instruction: 'Watch multiple versions of a play or listen to different recordings of a song. How do different performers/directors interpret the material? What choices do they make and why.' },
                     { type: 'Heart', text: 'Explore the "why" behind the emotions or actions in a performance piece', instruction: 'Why does a character react that way? Why did the composer choose that chord? Delve into the motivations, intentions, and meanings behind the artistic choices.' },
                     { type: 'Hand', text: 'Create diagrams or maps of stage blocking, musical phrases, or dance sequences', instruction: 'Visually map out the flow of a performance. Use arrows, symbols, and labels to show entrances, exits, musical dynamics, or dance patterns. This helps clarify complex sequences.' }
                 ],
@@ -1262,7 +1273,7 @@
                 craftsmanship: [
                     { type: 'Head', text: 'Strive for technical precision in every note, step, or line', instruction: 'Focus on hitting every note perfectly, executing every dance step with precision, and delivering every line with clear diction. Master the technical fundamentals of your art.' },
                     { type: 'Heart', text: 'Take pride in disciplined practise and the pursuit of physical excellence', instruction: 'Appreciate the beauty of well-executed movement and the satisfaction of mastering a physical challenge. Let the pursuit of excellence motivate your dedication to practise.' },
-                    { type: 'Hand', text: 'Regularly record and review your performances for self-assessment', instruction: 'Film or record yourself. Watch back critically, but kindly. What sounds/movements were perfect? What needs more work? Identify one specific thing to improve next time.' },
+                    { type: 'Hand', text: 'Regularly record and review your performances for self-assessment', instruction: 'Use your phone to record your practise sessions. Watch back critically, but kindly. What sounds/movements were perfect? What needs more work? Identify one specific thing to improve next time.' },
                     { type: 'Head', text: 'Analyse professional performances to learn about staging, dynamics, or expression', instruction: 'Watch high-quality recordings of professionals. What details make their performance excellent? How do they use dynamics, timing, or staging to create impact? Apply these insights.' },
                     { type: 'Heart', text: 'Cultivate a growth mindset: believe your skills can always be refined', instruction: 'See every practise session as an opportunity to improve. Embrace challenges as chances to grow your talent. Know that dedication and consistent effort lead to mastery.' },
                     { type: 'Hand', text: 'Seek out a mentor or advanced performer for personalised feedback', instruction: 'Find someone more experienced than you. Ask them to watch or listen to your practise and give you specific advice on how to refine your technique and artistry.' }
