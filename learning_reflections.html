@@ -111,15 +111,6 @@
             margin-bottom: 2rem;
         }
 
-        .prompt-card {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
         .prompt-card:hover {
             background: #f0fdfa;
             border-color: #14b8a6;
@@ -232,7 +223,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
             flex-direction: column;
         }
 
@@ -347,6 +337,11 @@
             font-style: italic;
             line-height: 1.4;
         }
+        /* Override italic for specific guidance, if needed */
+        .input-guidance.not-italic {
+            font-style: normal;
+        }
+
 
         .form-textarea {
             resize: vertical;
@@ -424,11 +419,36 @@
             border-radius: 0.5rem 0.5rem 0 0;
         }
 
+        /* Styling for the opt-in checkbox section */
+        .opt-in-form-group {
+            background-color: #f0fdfa; /* Light greenish background */
+            border: 1px solid #99f6e4; /* Light teal border */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 3rem; /* Spacing from previous elements */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Subtle shadow */
+        }
+
+        .opt-in-form-group .form-label {
+            margin-bottom: 0.5rem; /* Adjust spacing */
+            color: #0f766e; /* Darker teal for emphasis */
+            /* Ensure the label itself is not wrapping text strangely */
+            display: flex; /* Keep flex for icon alignment */
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .opt-in-form-group .form-label input[type="checkbox"] {
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
+        }
+
+
         .reflection-content {
             color: #374151;
             line-height: 1.8;
             white-space: pre-wrap;
             font-size: 1rem;
+            /* Ensure content within these sections is left-aligned */
+            text-align: left; 
         }
 
         .reflection-dispositions {
@@ -538,15 +558,17 @@
         }
 
         @media print {
-            body * {
-                visibility: hidden;
+            /* NEW: Hide the main app content during print */
+            #mainApp {
+                display: none;
             }
             
-            .reflection-preview, .reflection-preview * {
-                visibility: visible;
+            /* Ensure only the crafted print content is visible */
+            #print-content, #print-content * {
+                visibility: visible !important;
             }
             
-            .reflection-preview {
+            #print-content {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -556,12 +578,14 @@
                 background: white;
                 border: none;
                 box-shadow: none;
+                display: block !important; /* Force display block for print */
             }
             
-            .reflection-preview img {
-                max-width: 100% !important;
-                height: auto !important;
-                page-break-inside: avoid;
+            /* Ensure backgrounds and colours print */
+            #print-content * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             
             @page {
@@ -620,7 +644,9 @@
             learningStrengths: [],
             learningStrengthsReflection: '',
             selectedFuturePrompts: [],
-            whereThisTakesMe: ''
+            whereThisTakesMe: '',
+            includeTeacherParentComment: false, // NEW: Field for opt-in
+            teacherParentComment: '' // NEW: Field to hold the comment text
         };
 
         const totalSteps = 5;
@@ -875,6 +901,14 @@
 
         function updateReflection(field, value) {
             reflection[field] = value;
+            // If the field is the includeTeacherParentComment checkbox, re-render
+            // to show/hide the section immediately and scroll.
+            if (field === 'includeTeacherParentComment') {
+                 renderStep(); // Re-render to show/hide the section
+                 if (value) { // If the checkbox is checked
+                    scrollToElement('teacherCommentSection');
+                 }
+            }
         }
 
         function toggleStrength(strength) {
@@ -951,6 +985,87 @@
                     imagesHtml = `<div style="background-color: #dbeafe; border: 1px solid #93c5fd; padding: 0.75rem; border-radius: 6px; margin: 1rem; font-size: 13px; color: #1e40af;">📎 Evidence: ${fileType}: ${reflection.evidenceFileName}</div>`;
                 }
 
+                // Building read-only sections for the PDF, including updated prompt text
+                const studentWhatIDidSection = `
+                    <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                        <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                            <span style="font-size: 18px;">📝</span>
+                            What I Did
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px; text-align: left;">
+                            <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.whatIDid}</div>
+                            ${imagesHtml}
+                        </div>
+                    </div>
+                `;
+
+                const studentHowIGrewSection = `
+                    <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                        <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                            <span style="font-size: 18px;">⭐</span>
+                            How I Grew as a Learner
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px; text-align: left;">
+                            ${reflection.learningStrengths.length > 0 ? `
+                            <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #14b8a6; padding: 0.75rem; border-radius: 4px; margin-bottom: 0.75rem;">
+                                <div style="font-weight: 600; color: #0f766e; margin-bottom: 0.25rem;">My learning was powered by:</div>
+                                <div style="color: #134e4a; font-style: italic;">${reflection.learningStrengths.join(' • ')}</div>
+                            </div>
+                            ` : ''}
+                            ${reflection.learningStrengthsReflection ? `
+                            <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.learningStrengthsReflection}</div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+
+                const studentWhereThisTakesMeSection = `
+                    <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
+                        <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                            <span style="font-size: 18px;">🚀</span>
+                            Where This Could Take Me
+                        </div>
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px; text-align: left;">
+                            <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.whereThisTakesMe}</div>
+                        </div>
+                    </div>
+                `;
+
+                // Teacher/Parent Comment Section for PDF
+                let teacherParentCommentSection = '';
+                if (reflection.includeTeacherParentComment) {
+                    let teacherCommentContentHTML;
+                    // Blank space for handwritten notes - no text, just space
+                    const blankSpaceForHandwrittenNotes = `
+                        <div style="height: 180px; background-color: #ffffff; border: 1px dashed #cbd5e1; padding: 1rem; border-radius: 0.5rem; text-align: left; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                    `;
+
+                    if (reflection.teacherParentComment) {
+                        // If there's content, display it directly, ensuring light background and border
+                        teacherCommentContentHTML = `<div style="color: #374151; line-height: 1.6; white-space: pre-wrap; text-align: left !important; padding: 1rem; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.5rem;">${reflection.teacherParentComment}</div>`;
+                    } else {
+                        // If no content, display a clear, light blank area for handwritten notes
+                        teacherCommentContentHTML = blankSpaceForHandwrittenNotes;
+                    }
+
+                    teacherParentCommentSection = `
+                        <div style="margin-top: 2rem; margin-bottom: 1.5rem; page-break-inside: avoid;">
+                            <div style="background: linear-gradient(135deg, #0891b2, #14b8a6); color: white; padding: 0.75rem 1rem; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 18px;">✍️</span>
+                                A Note from Your Teacher/Parent
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 80px; text-align: left;">
+                                ${teacherCommentContentHTML}
+                            </div>
+                            <p style="margin-top: 0.5rem; font-style: italic; font-size: 0.875rem; color: #6b7280; text-align: left;">
+                                This learning story is not stored by the app: make sure you save it to your device.
+                            </p>
+                        </div>
+                    `;
+                }
+                // END NEW
+
                 const printContent = `
                     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #0f172a; max-width: 8.5in; margin: 0 auto; padding: 0.5rem; background: white;">
                         <div style="text-align: center; margin-bottom: 1rem;">
@@ -960,130 +1075,51 @@
                         
                         <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #14b8a6; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
                             <div style="margin-bottom: 0.25rem; font-size: 14px;">
-                                <span style="font-weight: 600; color: #0f766e; display: inline-block; width: 60px;">Date:</span> 
-                                <span style="color: #374151;">${formatDate(reflection.date)}</span>
+                                <span class="reflection-meta-label">Date:</span> ${formatDate(reflection.date)}
                             </div>
                             <div style="font-size: 14px;">
-                                <span style="font-weight: 600; color: #0f766e; display: inline-block; width: 60px;">Subject:</span> 
-                                <span style="color: #374151;">${reflection.subject}</span>
+                                <span class="reflection-meta-label">Subject:</span> ${reflection.subject}
                             </div>
                         </div>
                         
-                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
-                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 18px;">📝</span>
-                                What I Did
-                            </div>
-                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
-                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap; margin-bottom: 0.75rem;">${reflection.whatIDid}</div>
-                                ${imagesHtml}
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
-                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 18px;">⭐</span>
-                                How I Grew as a Learner
-                            </div>
-                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
-                                ${reflection.learningStrengths.length > 0 ? `
-                                <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #14b8a6; padding: 0.75rem; border-radius: 4px; margin-bottom: 0.75rem;">
-                                    <div style="font-weight: 600; color: #0f766e; margin-bottom: 0.25rem;">My learning was powered by:</div>
-                                    <div style="color: #134e4a; font-style: italic;">${reflection.learningStrengths.join(' • ')}</div>
-                                </div>
-                                ` : ''}
-                                ${reflection.learningStrengthsReflection ? `
-                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.learningStrengthsReflection}</div>
-                                ` : ''}
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
-                            <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; margin-bottom: 0; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 18px;">🚀</span>
-                                Where This Could Take Me
-                            </div>
-                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; min-height: 40px;">
-                                <div style="color: #374151; line-height: 1.6; white-space: pre-wrap;">${reflection.whereThisTakesMe}</div>
-                            </div>
-                        </div>
+                        ${studentWhatIDidSection}
+                        ${studentHowIGrewSection}
+                        ${studentWhereThisTakesMeSection}
+                        ${teacherParentCommentSection}
                         
                         <div style="margin-top: 2rem; padding-top: 0.75rem; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #64748b;">
                             <div style="font-weight: 600; color: #14b8a6; margin-bottom: 0.125rem;">Learner Threads</div>
-                            <div>© Bevan Holloway | Student Learning Reflection | Powered by Smata</div>
+                            <div>© Bevan Holloway | Student Learning Reflection | Learner Threads is powered by Smata</div>
                         </div>
                     </div>
                 `;
 
-                // Create a temporary container
+                // Create a temporary container for printing
                 const printContainer = document.createElement('div');
                 printContainer.innerHTML = printContent;
-                printContainer.style.display = 'none';
+                printContainer.style.display = 'none'; // Keep hidden initially
                 printContainer.id = 'print-content';
                 
-                // Remove any existing print content
+                // Remove any existing print content container to ensure clean print
                 const existing = document.getElementById('print-content');
                 if (existing) {
                     existing.remove();
                 }
                 
-                // Add to document
+                // Add to document body
                 document.body.appendChild(printContainer);
                 
-                // Create print styles
-                const printStyles = `
-                    <style id="print-styles">
-                        @media print {
-                            body * {
-                                visibility: hidden;
-                            }
-                            #print-content, #print-content * {
-                                visibility: visible;
-                            }
-                            #print-content {
-                                position: absolute;
-                                left: 0;
-                                top: 0;
-                                width: 100%;
-                                display: block !important;
-                            }
-                            
-                            /* Ensure backgrounds and colours print */
-                            #print-content * {
-                                -webkit-print-color-adjust: exact !important;
-                                color-adjust: exact !important;
-                                print-color-adjust: exact !important;
-                            }
-                            
-                            @page {
-                                margin: 1in;
-                                size: letter;
-                            }
-                        }
-                    </style>
-                `;
-                
-                // Remove existing print styles
-                const existingStyles = document.getElementById('print-styles');
-                if (existingStyles) {
-                    existingStyles.remove();
-                }
-                
-                // Add print styles to head
-                document.head.insertAdjacentHTML('beforeend', printStyles);
-                
-                // Show the content for printing
-                printContainer.style.display = 'block';
-                
+                // Ensure the main app UI is hidden during printing
+                document.getElementById('mainApp').style.display = 'none';
+
                 // Trigger print
                 setTimeout(() => {
                     window.print();
                     
-                    // Clean up after printing
+                    // Clean up after printing: remove print container and restore main app UI
                     setTimeout(() => {
                         printContainer.remove();
-                        const styles = document.getElementById('print-styles');
-                        if (styles) styles.remove();
+                        document.getElementById('mainApp').style.display = 'block'; // Restore main app UI
                     }, 1000);
                 }, 100);
             }
@@ -1103,7 +1139,9 @@
                 learningStrengths: [],
                 learningStrengthsReflection: '',
                 selectedFuturePrompts: [],
-                whereThisTakesMe: ''
+                whereThisTakesMe: '',
+                includeTeacherParentComment: false, // NEW: Reset on new reflection
+                teacherParentComment: '' // NEW: Reset on new reflection
             };
             currentStep = 0;
             init();
@@ -1111,6 +1149,17 @@
 
         function goToHub() {
             window.location.href = 'index.html'; // Points to the new hub homepage
+        }
+
+        // New function to scroll to an element
+        function scrollToElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                // Use a slight delay to allow for rendering changes (like display: none to block)
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100); 
+            }
         }
 
         function renderStep() {
@@ -1126,11 +1175,16 @@
                 case 2:
                     content.innerHTML = renderLearningStrengthsStep();
                     break;
-                case 3:
+                case 3: // This is the 'Where This Could Take Me' step
                     content.innerHTML = renderWhereThisTakesMeStep();
+                    // If the checkbox is already checked when arriving at this step (e.g., via 'back' button)
+                    if (reflection.includeTeacherParentComment) {
+                        scrollToElement('teacherCommentSection'); 
+                    }
                     break;
                 case 4:
                     content.innerHTML = renderReviewStep();
+                    // No need to scroll here, as the teacher comment is now input on step 3.
                     break;
             }
         }
@@ -1211,8 +1265,8 @@
                         <label class="form-label">Describe what you worked on</label>
                         <div class="input-guidance">What was the assignment, project, or task? Why were you doing it? How long have you been working on it? Is this the end of that learning, or are you part way through? If you are part way, is this reflection about the start, middle, or towards the end?</div>
                         <textarea class="form-textarea" rows="6" 
-                                    data-field="whatIDid"
-                                    onchange="updateReflection('whatIDid', this.value)">${reflection.whatIDid}</textarea>
+                                        data-field="whatIDid"
+                                        onchange="updateReflection('whatIDid', this.value)">${reflection.whatIDid}</textarea>
                     </div>
                 </div>
             `;
@@ -1255,7 +1309,7 @@
                         <label class="form-label">How I Used These to Power My Learning</label>
                         <div class="input-guidance">Write about how they powered your learning: e.g., "Curiosity helped power my learning because I …" You might also note things like: how this is the first time your learning has been powered this way, or that this is a power that is strong in you because you use it a lot, or that you are trying a new way of powering your learning and how you found it.</div>
                         <textarea class="form-textarea" rows="6" 
-                                    onchange="updateReflection('learningStrengthsReflection', this.value)">${reflection.learningStrengthsReflection || ''}</textarea>
+                                        onchange="updateReflection('learningStrengthsReflection', this.value)">${reflection.learningStrengthsReflection || ''}</textarea>
                     </div>
                 </div>
             `;
@@ -1286,23 +1340,83 @@
                             ${reflection.selectedFuturePrompts.map(selectedQuestion => {
                                 const prompt = futurePrompts.find(p => p.question === selectedQuestion);
                                 return prompt ? `
-                                    <div style="margin-bottom: 1rem; padding: 1rem; background: #f0fdfa; border-radius: 0.5rem; border-left: 3px solid #14b8a6;">
-                                        <div style="color: #0f766e; font-weight: 600; margin-bottom: 0.5rem;">${selectedQuestion}</div>
-                                        ${prompt.details.map(detail => `
-                                            <div style="color: #134e4a; font-size: 0.875rem; margin: 0.25rem 0; padding-left: 1rem;">• ${detail}</div>
-                                        `).join('')}
-                                    </div>
-                                ` : '';
+                                        <div style="margin-bottom: 1rem; padding: 1rem; background: #f0fdfa; border-radius: 0.5rem; border-left: 3px solid #14b8a6;">
+                                            <div style="color: #0f766e; font-weight: 600; margin-bottom: 0.5rem;">${selectedQuestion}</div>
+                                            ${prompt.details.map(detail => `
+                                                <div style="color: #134e4a; font-size: 0.875rem; margin: 0.25rem 0; padding-left: 1rem;">• ${detail}</div>
+                                            `).join('')}
+                                        </div>
+                                    ` : '';
                             }).join('')}
                         </div>
                     ` : ''}
                     
                     <div class="form-group">
                         <label class="form-label">Future Possibilities</label>
-                        <div class="input-guidance">Choose a couple of the questions above to guide your reflection...</div>
+                        <div class="input-guidance">Write about what new doors this learning has opened for you. How might you apply it in new ways, or what new questions do you have? Consider how this experience has shaped your thinking, or how you might use your strengths to tackle future challenges.</div>
                         <textarea class="form-textarea" rows="6" 
-                                    onchange="updateReflection('whereThisTakesMe', this.value)">${reflection.whereThisTakesMe}</textarea>
+                                        onchange="updateReflection('whereThisTakesMe', this.value)">${reflection.whereThisTakesMe}</textarea>
                     </div>
+
+                    <div class="opt-in-form-group">
+                        <label class="form-label">
+                            <input type="checkbox" style="width: 20px; height: 20px; border: 2px solid #14b8a6; border-radius: 4px; flex-shrink: 0;"
+                                        ${reflection.includeTeacherParentComment ? 'checked' : ''}
+                                        onchange="updateReflection('includeTeacherParentComment', this.checked); if(this.checked) scrollToElement('teacherCommentSection');">
+                            <span><strong>Would you like to include Teacher/Parent Notes on your reflection?</strong></span>
+                        </label>
+                        <p class="input-guidance not-italic">
+                            <strong>This is a great opportunity to chat with a teacher or parent about your learning journey.</strong> After your discussion, they can type their notes directly into the space provided on the final review screen, or leave it blank to handwrite them later.
+                        </p>
+                    </div>
+
+                    ${reflection.includeTeacherParentComment ? `
+                        <div id="teacherCommentStudentContext" style="margin-top: 3rem;">
+                            <h4 style="color: #0f766e; margin-bottom: 1rem; font-size: 1.1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Student's Reflection for Discussion:</h4>
+                            
+                            <div class="reflection-section" style="border-left: 4px solid #14b8a6; padding: 1rem 1.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="background: #14b8a6; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem 0.5rem 0 0; font-size: 1rem; margin: -1rem -1.5rem 1rem -1.5rem;">What I Did</h3>
+                                <div class="reflection-content">${reflection.whatIDid || '<i>(Student has not yet completed this section)</i>'}</div>
+                                ${reflection.evidenceFile ? `
+                                <div style="margin-top: 1rem; text-align: center;">
+                                    ${reflection.evidenceFile.type.startsWith('image/') ? `
+                                        <img src="${URL.createObjectURL(reflection.evidenceFile)}" alt="Learning Evidence" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                    ` : `
+                                        <div style="background: #e0f2f7; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid #a7d9ee; font-size: 0.85rem; color: #086d8a;">📎 Evidence: ${reflection.evidenceFileName}</div>
+                                    `}
+                                </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="reflection-section" style="border-left: 4px solid #14b8a6; padding: 1rem 1.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="background: #14b8a6; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem 0.5rem 0 0; font-size: 1rem; margin: -1rem -1.5rem 1rem -1.5rem;">How I Grew as a Learner</h3>
+                                <div class="reflection-content">${reflection.learningStrengthsReflection || '<i>(Student has not yet completed this section)</i>'}</div>
+                                ${reflection.learningStrengths.length > 0 ? `
+                                <div style="background: #e0f2f7; padding: 0.75rem; border-radius: 0.5rem; margin-top: 1rem; border: 1px solid #a7d9ee;">
+                                    <strong style="color: #0f766e; font-size: 0.95rem;">Powered by:</strong> <span style="color: #134e4a;">${reflection.learningStrengths.join(' • ')}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="reflection-section" style="border-left: 4px solid #14b8a6; padding: 1rem 1.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="background: #14b8a6; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem 0.5rem 0 0; font-size: 1rem; margin: -1rem -1.5rem 1rem -1.5rem;">Where This Could Take Me</h3>
+                                <div class="reflection-content">${reflection.whereThisTakesMe || '<i>(Student has not yet completed this section)</i>'}</div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="teacherCommentSection">
+                            <label class="form-label">A Note from Your Teacher/Parent</label>
+                            <div class="input-guidance not-italic">
+                                In this discussion, look for the unique 'threads' this learner has left – a new question, a brave risk, a flicker of agency, the use of a disposition, a break through. Then use this space to tell a story of growth by weaving your observations and encouragement here. Focus on what you notice about them as a learner and where their learning can go next, making this a true 'learning love letter' that strengthens the idea that growth, no matter how small, is possible and has been noticed.
+                            </div>
+                            <textarea class="form-textarea" rows="4" 
+                                            placeholder="Type comments here..."
+                                            style="text-align: left; padding: 1rem;" 
+                                            onchange="updateReflection('teacherParentComment', this.value)">${reflection.teacherParentComment || ''}</textarea>
+                            <p style="margin-top: 0.5rem; font-style: italic; font-size: 0.875rem; color: #6b7280;">
+                                This learning story is not stored by the app: make sure you save it to your device.
+                            </p>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
@@ -1334,7 +1448,7 @@
                             ${reflection.evidenceFile.type.startsWith('image/') ? `
                                 <div style="text-align: center; margin: 1rem 0;">
                                     <img src="${URL.createObjectURL(reflection.evidenceFile)}" alt="Learning Evidence" 
-                                            style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+                                                style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
                                 </div>
                             ` : `
                                 <div style="background: #f0fdfa; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0; border: 1px solid #14b8a6;">
@@ -1348,13 +1462,11 @@
 
                     <div class="reflection-section">
                         <h3>How I Grew as a Learner</h3>
+                        <div class="reflection-content">${reflection.learningStrengthsReflection}</div>
                         ${reflection.learningStrengths.length > 0 ? `
                         <div class="reflection-dispositions">
                             <strong>My learning was powered by:</strong> ${reflection.learningStrengths.join(', ')}
                         </div>
-                        ` : ''}
-                        ${reflection.learningStrengthsReflection ? `
-                        <div class="reflection-content">${reflection.learningStrengthsReflection}</div>
                         ` : ''}
                     </div>
 
@@ -1362,6 +1474,18 @@
                         <h3>Where This Could Take Me</h3>
                         <div class="reflection-content">${reflection.whereThisTakesMe}</div>
                     </div>
+
+                    ${reflection.includeTeacherParentComment ? `
+                        <div class="reflection-section" style="border-left: 4px solid #0891b2;">
+                            <h3>A Note from Your Teacher/Parent</h3>
+                            <div style="color: #374151; line-height: 1.6; white-space: pre-wrap; text-align: left; padding: 0;">
+                                ${reflection.teacherParentComment ? reflection.teacherParentComment : `<p style="color: #6b7280; font-style: italic; margin-bottom: 0; text-align: left;">Space for Teacher/Parent Notes (for handwritten additions)</p>`}
+                            </div>
+                            <p style="margin-top: 0.5rem; font-style: italic; font-size: 0.875rem; color: #6b7280;">
+                                This learning story is not stored by the app: make sure you save it to your device.
+                            </p>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
