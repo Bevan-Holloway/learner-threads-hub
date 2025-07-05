@@ -334,14 +334,8 @@
             font-size: 0.875rem;
             color: #6b7280;
             margin-bottom: 0.5rem;
-            font-style: italic;
             line-height: 1.4;
         }
-        /* Override italic for specific guidance, if needed */
-        .input-guidance.not-italic {
-            font-style: normal;
-        }
-
 
         .form-textarea {
             resize: vertical;
@@ -441,7 +435,6 @@
             flex-shrink: 0; /* Prevent checkbox from shrinking */
         }
 
-
         .reflection-content {
             color: #374151;
             line-height: 1.8;
@@ -521,6 +514,47 @@
             display: block; /* Ensures it takes up full width for text-align */
         }
 
+        /* Help section styles */
+        .help-section {
+            margin: 1rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background: #f8fafc;
+        }
+
+        .help-toggle {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #0891b2;
+            font-weight: 500;
+        }
+
+        .help-toggle:hover {
+            background: #f0fdfa;
+        }
+
+        .help-content {
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .help-content h4 {
+            color: #0f766e;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .help-content p {
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
 
         /* Removed specific positioning for back-to-hub-button in app headers */
         /* as it will now be in the main navigation */
@@ -811,6 +845,11 @@
             }
         ];
 
+        function toggleHelp(helpId) {
+            const helpContent = document.getElementById(helpId);
+            const isVisible = helpContent.style.display !== 'none';
+            helpContent.style.display = isVisible ? 'none' : 'block';
+        }
 
         function init() {
             renderStep();
@@ -1263,7 +1302,31 @@
                 <div class="text-fields-container">
                     <div class="form-group">
                         <label class="form-label">Describe what you worked on</label>
-                        <div class="input-guidance">What was the assignment, project, or task? Why were you doing it? How long have you been working on it? Is this the end of that learning, or are you part way through? If you are part way, is this reflection about the start, middle, or towards the end?</div>
+                        <div class="input-guidance">
+                            <strong>Describe what you worked on:</strong><br>
+                            • What was the task and why were you doing it?<br>
+                            • Use the examples below if you need ideas.
+                        </div>
+
+                        <div class="help-section">
+                            <button class="help-toggle" onclick="toggleHelp('whatIDidHelp')">
+                                ❓ Need help? See examples
+                            </button>
+                            <div id="whatIDidHelp" class="help-content" style="display: none;">
+                                <h4>Example: Sam's Science Reflection (Year 6)</h4>
+                                <p><em>"We did a plant experiment where we grew beans in different conditions - some in the dark, some in sunlight, and some with different amounts of water. I was in charge of measuring the plants every day for two weeks and recording the data in our science journal."</em></p>
+                                
+                                <h4>Example: Alex's English Reflection (Year 11)</h4>
+                                <p><em>"I wrote a creative short story for our narrative writing unit. The assignment was to write a 1,500-word story that included dialogue and showed character development. I chose to write about a teenager who discovers an old photo that reveals a family secret. This was a three-week project where we went through drafting, peer review, and revision."</em></p>
+                                
+                                <h4>Example: Maya's Maths Reflection (Year 3)</h4>
+                                <p><em>"We learned about fractions by making pizzas with playdough and cutting them into different pieces. Then we had to figure out which pizza slices were bigger and add fractions together. I made a pizza with 8 slices and practised showing 3/8, 5/8, and other fractions."</em></p>
+
+                                <h4>Example: Jordan's Maths Reflection (Year 4)</h4>
+                                <p><em>"We had to do word problems about money. I didn't get the right answer but I tried different ways. First I tried adding but that was wrong. Then I tried taking away. I asked my friend for help too. It was hard."</em></p>
+                            </div>
+                        </div>
+
                         <textarea class="form-textarea" rows="6" 
                                         data-field="whatIDid"
                                         onchange="updateReflection('whatIDid', this.value)">${reflection.whatIDid}</textarea>
@@ -1307,7 +1370,31 @@
                     
                     <div class="form-group">
                         <label class="form-label">How I Used These to Power My Learning</label>
-                        <div class="input-guidance">Write about how they powered your learning: e.g., "Curiosity helped power my learning because I …" You might also note things like: how this is the first time your learning has been powered this way, or that this is a power that is strong in you because you use it a lot, or that you are trying a new way of powering your learning and how you found it.</div>
+                        <div class="input-guidance">
+                            <strong>Write about your learning powers:</strong><br>
+                            • Start with "X helped power my learning because..."<br>
+                            • See examples for ideas.
+                        </div>
+
+                        <div class="help-section">
+                            <button class="help-toggle" onclick="toggleHelp('learningStrengthsHelp')">
+                                ❓ Need help? See examples
+                            </button>
+                            <div id="learningStrengthsHelp" class="help-content" style="display: none;">
+                                <h4>Example: Sam (Science - Curiosity, Attention)</h4>
+                                <p><em>"Curiosity helped power my learning because I kept wondering 'what would happen if we tried this?' When I saw the plants in the dark growing tall and pale, I started asking questions about why they looked so different. Attention powered my learning because I had to really focus when measuring - even tiny differences mattered for our data."</em></p>
+                                
+                                <h4>Example: Alex (English - Imagination, Persistence, Craftsmanship)</h4>
+                                <p><em>"Imagination powered my learning because I spent time daydreaming about different plot possibilities and really visualising my characters. I used metaphors to describe emotions and tried to put myself in my character's shoes. Persistence helped when I got stuck in the middle - I took breaks and came back with fresh ideas instead of giving up. Craftsmanship powered my learning because I really focused on making each sentence better during revision. I read my dialogue out loud to make sure it sounded natural."</em></p>
+                                
+                                <h4>Example: Maya (Maths - Imagination, Collaboration)</h4>
+                                <p><em>"Imagination helped power my learning because I pretended I was running a real pizza shop and had to make sure customers got the right amount. Making it into a pretend game made the fractions easier to understand. Collaboration powered my learning because my partner and I helped each other figure out which fractions were equivalent. When I got confused, she showed me with the playdough pieces."</em></p>
+
+                                <h4>Example: Jordan (Maths - Persistence, Collaboration)</h4>
+                                <p><em>"Persistence helped me because I didn't give up when it was hard. I tried adding first and that didn't work. Then I tried something else. Collaboration helped because I asked my friend when I got stuck. She didn't tell me the answer but she helped me think about it."</em></p>
+                            </div>
+                        </div>
+
                         <textarea class="form-textarea" rows="6" 
                                         onchange="updateReflection('learningStrengthsReflection', this.value)">${reflection.learningStrengthsReflection || ''}</textarea>
                     </div>
@@ -1353,7 +1440,31 @@
                     
                     <div class="form-group">
                         <label class="form-label">Future Possibilities</label>
-                        <div class="input-guidance">Write about what new doors this learning has opened for you. How might you apply it in new ways, or what new questions do you have? Consider how this experience has shaped your thinking, or how you might use your strengths to tackle future challenges.</div>
+                        <div class="input-guidance">
+                            <strong>What doors has this opened?</strong><br>
+                            • Think about new questions, applications, challenges<br>
+                            • Examples below show different approaches.
+                        </div>
+
+                        <div class="help-section">
+                            <button class="help-toggle" onclick="toggleHelp('futureHelp')">
+                                ❓ Need help? See examples
+                            </button>
+                            <div id="futureHelp" class="help-content" style="display: none;">
+                                <h4>Example: Sam (Science)</h4>
+                                <p><em>"I want to try this experiment at home with different types of seeds. I'm curious about whether music or talking to plants actually helps them grow like my nan says. This experiment taught me that being really careful with measurements is important in science."</em></p>
+                                
+                                <h4>Example: Alex (English)</h4>
+                                <p><em>"I realised I really enjoy creating characters and exploring their emotions. I might try writing a longer story or even start a creative writing blog. This project also taught me that revision isn't just fixing mistakes - it's about making your ideas clearer and more powerful. I want to use this same careful approach in my history essays."</em></p>
+                                
+                                <h4>Example: Maya (Maths)</h4>
+                                <p><em>"Now I notice fractions everywhere - when mum cuts an apple or when we share biscuits. I want to try using fractions when I help with baking. I learned that maths is easier when I can touch things and make it into a story."</em></p>
+
+                                <h4>Example: Jordan (Maths)</h4>
+                                <p><em>"I want to try more word problems. Maybe easier ones first. I think I'm getting better at not giving up. I want to ask for help more because that worked. Maybe I could help someone else too."</em></p>
+                            </div>
+                        </div>
+
                         <textarea class="form-textarea" rows="6" 
                                         onchange="updateReflection('whereThisTakesMe', this.value)">${reflection.whereThisTakesMe}</textarea>
                     </div>
@@ -1365,7 +1476,7 @@
                                         onchange="updateReflection('includeTeacherParentComment', this.checked); if(this.checked) scrollToElement('teacherCommentSection');">
                             <span><strong>Would you like to include Teacher/Parent Notes on your reflection?</strong></span>
                         </label>
-                        <p class="input-guidance not-italic">
+                        <p class="input-guidance">
                             <strong>This is a great opportunity to chat with a teacher or parent about your learning journey.</strong> After your discussion, they can type their notes directly into the space provided on the final review screen, or leave it blank to handwrite them later.
                         </p>
                     </div>
@@ -1405,9 +1516,47 @@
                         </div>
                         <div class="form-group" id="teacherCommentSection">
                             <label class="form-label">A Note from Your Teacher/Parent</label>
-                            <div class="input-guidance not-italic">
-                                In this discussion, look for the unique 'threads' this learner has left – a new question, a brave risk, a flicker of agency, the use of a disposition, a break through. Then use this space to tell a story of growth by weaving your observations and encouragement here. Focus on what you notice about them as a learner and where their learning can go next, making this a true 'learning love letter' that strengthens the idea that growth, no matter how small, is possible and has been noticed.
+                            <div class="input-guidance">
+                                <strong>In this discussion, look for the unique 'threads' this learner has left:</strong><br>
+                                • A new question, a brave risk, a flicker of agency<br>
+                                • The use of a disposition, a breakthrough moment<br>
+                                • See examples below for ways to write your observations.
                             </div>
+
+                            <div class="help-section">
+                                <button class="help-toggle" onclick="toggleHelp('teacherCommentHelp')">
+                                    ❓ Need help? See guidance for teachers/parents
+                                </button>
+                                <div id="teacherCommentHelp" class="help-content" style="display: none;">
+                                    <h4>Questions to Ask During Your Discussion:</h4>
+                                    <p><strong>• What surprised you about this learning?<br>
+                                    • Which part are you most proud of and why?<br>
+                                    • How did you handle the tricky bits?<br>
+                                    • What would you tell another student about this?<br>
+                                    • What questions do you have now?</strong></p>
+                                    
+                                    <h4>Example: Celebrating First Glimmers (Year 4):</h4>
+                                    <p><em>"Jordan, I noticed something really important in your reflection - you wrote that you 'didn't give up even when it was hard.' That's persistence, and it's one of the most powerful learning strengths anyone can have. When you got stuck on that problem, instead of saying 'I can't do this,' you tried a different way. That's exactly what mathematicians do! You might not have got the final answer, but you showed me you're becoming a real problem-solver. I'm excited to see where this persistence takes you next."</em></p>
+                                    
+                                    <h4>Example: Noticing Small Steps (Secondary):</h4>
+                                    <p><em>"Casey, what stood out to me was when you said you 'asked one question in class for the first time.' I know speaking up doesn't come easily for you, so that moment of curiosity breaking through was powerful to see. That question you asked actually helped three other students who were wondering the same thing. Your willingness to be vulnerable in your learning is inspiring - it shows real courage. I wonder what other questions are bubbling up for you?"</em></p>
+
+                                    <h4>Example Teacher Comment (Primary):</h4>
+                                    <p><em>"Maya, I loved watching you discover that fractions are everywhere! You showed real imagination when you turned the maths into a pizza shop game - that creative thinking helped you understand something quite abstract. Your collaboration with Sarah was beautiful to see - the way you both used the playdough to help each other really shows how learning together makes everyone stronger. I'm excited to see how you use fractions when you help with baking!"</em></p>
+                                    
+                                    <h4>Example Parent Comment (Secondary):</h4>
+                                    <p><em>"Alex, what strikes me most about your reflection is how you've learned that revision isn't just 'fixing mistakes' - you've discovered it's about making your ideas shine. That's a massive realisation that will serve you in so many areas. Your persistence when you got stuck in the middle of your story really impressed me. The fact that you want to apply this careful approach to your history essays shows you're thinking like a real learner - seeing connections across subjects. I'm curious to read that creative writing blog you mentioned!"</em></p>
+                                    
+                                    <h4>Tips for Writing Your Note:</h4>
+                                    <p><strong>• Use their name and speak directly to them<br>
+                                    • Notice specific dispositions they used (curiosity, persistence, etc.)<br>
+                                    • Celebrate small steps and first glimmers of growth<br>
+                                    • Focus on what they DID do, not what they didn't<br>
+                                    • Connect to their future learning or interests<br>
+                                    • Write as if you're having a conversation with them</strong></p>
+                                </div>
+                            </div>
+
                             <textarea class="form-textarea" rows="4" 
                                             placeholder="Type comments here..."
                                             style="text-align: left; padding: 1rem;" 
