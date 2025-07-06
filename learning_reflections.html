@@ -13,13 +13,12 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f0f9ff; /* Consistent light background */
+            background-color: #f0f9ff;
             min-height: 100vh;
         }
 
-        /* Main App Styles (now visible by default, launched from Hub) */
         .main-app {
-            display: block; /* Changed from none to block */
+            display: block;
         }
 
         .container {
@@ -33,7 +32,7 @@
             border-radius: 0.75rem;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            border: 1px solid #e2e8f0; /* Consistent with Hub */
+            border: 1px solid #e2e8f0;
         }
 
         .header {
@@ -41,7 +40,6 @@
             color: white;
             padding: 2rem;
             text-align: center;
-            /* Removed position: relative; if not needed for *this* header's content */
         }
 
         .header h1 {
@@ -103,37 +101,6 @@
         .section-intro p {
             color: #0f766e;
             line-height: 1.6;
-        }
-
-        .prompt-cards {
-            display: grid;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .prompt-card:hover {
-            background: #f0fdfa;
-            border-color: #14b8a6;
-            transform: translateY(-1px);
-        }
-
-        .prompt-card.selected {
-            background: #f0fdfa;
-            border-color: #14b8a6;
-            box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
-        }
-
-        .prompt-question {
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .prompt-helper {
-            font-size: 0.875rem;
-            color: #64748b;
-            line-height: 1.4;
         }
 
         .dispositions-grid {
@@ -198,14 +165,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .disposition-bullet {
-            color: #134e4a;
-            font-size: 0.875rem;
-            margin: 0.25rem 0;
-            padding-left: 1rem;
-        }
-
-        /* NEW: Examples Section Styles */
+        /* Examples Section Styles */
         .examples-section {
             margin: 1.5rem 0;
         }
@@ -316,24 +276,6 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-        }
-
-        .files-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .file-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
         }
 
         .file-info {
@@ -505,26 +447,25 @@
             border-radius: 0.5rem 0.5rem 0 0;
         }
 
-        /* Styling for the opt-in checkbox section */
         .opt-in-form-group {
-            background-color: #f0fdfa; /* Light greenish background */
-            border: 1px solid #99f6e4; /* Light teal border */
+            background-color: #f0fdfa;
+            border: 1px solid #99f6e4;
             border-radius: 0.5rem;
             padding: 1.5rem;
-            margin-top: 3rem; /* Spacing from previous elements */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Subtle shadow */
+            margin-top: 3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .opt-in-form-group .form-label {
-            margin-bottom: 0.5rem; /* Adjust spacing */
-            color: #0f766e; /* Darker teal for emphasis */
-            /* Ensure the label itself is not wrapping text strangely */
-            display: flex; /* Keep flex for icon alignment */
+            margin-bottom: 0.5rem;
+            color: #0f766e;
+            display: flex;
             align-items: center;
             gap: 0.75rem;
         }
+
         .opt-in-form-group .form-label input[type="checkbox"] {
-            flex-shrink: 0; /* Prevent checkbox from shrinking */
+            flex-shrink: 0;
         }
 
         .reflection-content {
@@ -532,7 +473,6 @@
             line-height: 1.8;
             white-space: pre-wrap;
             font-size: 1rem;
-            /* Ensure content within these sections is left-aligned */
             text-align: left; 
         }
 
@@ -556,7 +496,7 @@
             justify-content: center;
             gap: 1rem;
             border-top: 1px solid #e2e8f0;
-            border-radius: 0 0 0.75rem 0.75rem; /* Match card border radius */
+            border-radius: 0 0 0.75rem 0.75rem;
         }
 
         .btn {
@@ -599,14 +539,13 @@
             color: #64748b;
             font-size: 0.875rem;
         }
-        /* Corrected footer styling, removed problematic element */
+
         footer .copyright {
             font-size: 0.75rem;
-            line-height: 1.5; /* Ensures proper spacing if on multiple lines */
-            display: block; /* Ensures it takes up full width for text-align */
+            line-height: 1.5;
+            display: block;
         }
 
-        /* Help section styles */
         .help-section {
             margin: 1rem 0;
             border: 1px solid #e2e8f0;
@@ -648,9 +587,6 @@
             line-height: 1.5;
         }
 
-        /* Removed specific positioning for back-to-hub-button in app headers */
-        /* as it will now be in the main navigation */
-
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -677,11 +613,6 @@
                 align-items: center;
             }
 
-            .files-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
             .examples-toggle {
                 font-size: 0.875rem;
                 padding: 0.875rem;
@@ -697,12 +628,10 @@
         }
 
         @media print {
-            /* NEW: Hide the main app content during print */
             #mainApp {
                 display: none;
             }
             
-            /* Ensure only the crafted print content is visible */
             #print-content, #print-content * {
                 visibility: visible !important;
             }
@@ -717,10 +646,9 @@
                 background: white;
                 border: none;
                 box-shadow: none;
-                display: block !important; /* Force display block for print */
+                display: block !important;
             }
             
-            /* Ensure backgrounds and colours print */
             #print-content * {
                 -webkit-print-color-adjust: exact !important;
                 color-adjust: exact !important;
@@ -774,7 +702,7 @@
         let currentStep = 0;
         let reflection = {
             studentName: '',
-            yearLevel: '', // NEW: Added year level field
+            yearLevel: '',
             date: '',
             subject: '',
             whatIDid: '',
@@ -785,8 +713,8 @@
             learningStrengthsReflection: '',
             selectedFuturePrompts: [],
             whereThisTakesMe: '',
-            includeTeacherParentComment: false, // NEW: Field for opt-in
-            teacherParentComment: '' // NEW: Field to hold the comment text
+            includeTeacherParentComment: false,
+            teacherParentComment: ''
         };
 
         const totalSteps = 5;
@@ -806,12 +734,33 @@
             'Other'
         ];
 
-        // NEW: Year levels for the dropdown
         const yearLevels = [
             'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5',
             'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10',
             'Year 11', 'Year 12', 'Year 13'
         ];
+
+        // What I Did examples data structure
+        const whatIDidExamples = {
+            'Years 1-5': [
+                { year: 'Year 2', subject: 'Math', text: 'We did counting with blocks today. I had to count to 20 and then group them into tens. We made towers and I counted mine three times to make sure.' },
+                { year: 'Year 3', subject: 'Science', text: 'We planted beans in cups and put some by the window and some in the cupboard. I have to water mine every day and measure how tall it gets.' },
+                { year: 'Year 4', subject: 'English', text: 'I wrote a story about my dog. It had to have a beginning, middle and end. My story was about when my dog got lost and we found him at the park.' },
+                { year: 'Year 5', subject: 'Art', text: 'We learned about colour mixing. I painted a sunset using red, orange and yellow. I had to try mixing the colours to get the right orange.' }
+            ],
+            'Years 6-9': [
+                { year: 'Year 6', subject: 'Social Studies', text: 'We researched different countries for our culture project. I chose Japan and learned about their traditions, food, and festivals. I made a poster with pictures and facts.' },
+                { year: 'Year 7', subject: 'Science', text: 'We did an experiment about acids and bases using household items like lemon juice and baking soda. I had to record what happened when we mixed them and write up our observations.' },
+                { year: 'Year 8', subject: 'English', text: 'We\'re reading "The Outsiders" and had to write a character analysis about Ponyboy. I had to find quotes from the book that showed what kind of person he was and explain my thinking.' },
+                { year: 'Year 9', subject: 'Math', text: 'We\'re learning about linear equations and had to solve word problems about distance and time. Some problems took me ages to figure out what the equation should be.' }
+            ],
+            'Years 10-13': [
+                { year: 'Year 10', subject: 'History', text: 'I\'m researching the causes of World War I for our assessment. I\'ve been analysing primary sources like letters and newspaper articles to understand different perspectives on why the war started.' },
+                { year: 'Year 11', subject: 'Chemistry', text: 'We completed a titration experiment to determine the concentration of an unknown acid solution. I had to be very precise with measurements and repeat the experiment three times to get reliable results.' },
+                { year: 'Year 12', subject: 'English', text: 'I\'m writing a creative response to "The Great Gatsby" from the perspective of a minor character. This is challenging because I need to maintain Fitzgerald\'s style while showing events from a completely different viewpoint.' },
+                { year: 'Year 13', subject: 'Physics', text: 'I\'m investigating how the angle of a ramp affects the acceleration of a ball rolling down it. This involves collecting data, creating graphs, and using calculus to analyze the motion patterns.' }
+            ]
+        };
 
         const dispositions = [
             { 
@@ -900,7 +849,7 @@
             }
         ];
 
-        // NEW: Disposition examples data structure
+        // Disposition examples data structure
         const dispositionExamples = {
             'Curiosity': {
                 'Years 1-5': [
@@ -1002,17 +951,35 @@
             }
         };
 
-        // NEW: Helper function to get age bracket from year level
+        // Helper function to get age bracket from year level
         function getAgeBracket(yearLevel) {
-            if (!yearLevel) return 'Years 1-5'; // Default fallback
+            if (!yearLevel) return 'Years 1-5';
             const yearNum = parseInt(yearLevel.replace('Year ', ''));
             if (yearNum >= 1 && yearNum <= 5) return 'Years 1-5';
             if (yearNum >= 6 && yearNum <= 9) return 'Years 6-9';
             if (yearNum >= 10 && yearNum <= 13) return 'Years 10-13';
-            return 'Years 1-5'; // Fallback
+            return 'Years 1-5';
         }
 
-        // NEW: Function to render examples for selected dispositions
+        // Function to render examples for "What I Did" step
+        function renderWhatIDidExamples(yearLevel) {
+            const ageBracket = getAgeBracket(yearLevel);
+            const examples = whatIDidExamples[ageBracket] || [];
+            
+            let examplesHtml = '';
+            examples.forEach(example => {
+                examplesHtml += `
+                    <div class="example-card">
+                        <div class="example-header">${example.year} - ${example.subject}</div>
+                        <div class="example-text">"${example.text}"</div>
+                    </div>
+                `;
+            });
+            
+            return examplesHtml;
+        }
+
+        // Function to render examples for selected dispositions
         function renderExamplesForSelectedDispositions(selectedDispositions, yearLevel) {
             const ageBracket = getAgeBracket(yearLevel);
             
@@ -1034,10 +1001,27 @@
             return examplesHtml;
         }
 
-        // NEW: Function to toggle examples visibility
+        // Function to toggle examples visibility
         function toggleExamples() {
             const toggle = document.getElementById('examplesToggle');
             const content = document.getElementById('examplesContent');
+            const isExpanded = content.classList.contains('visible');
+            
+            if (isExpanded) {
+                content.classList.remove('visible');
+                toggle.classList.remove('expanded');
+                toggle.innerHTML = '💡 See examples from other students';
+            } else {
+                content.classList.add('visible');
+                toggle.classList.add('expanded');
+                toggle.innerHTML = '🔼 Hide examples';
+            }
+        }
+
+        // Function to toggle "What I Did" examples visibility
+        function toggleWhatIDidExamples() {
+            const toggle = document.getElementById('whatIDidExamplesToggle');
+            const content = document.getElementById('whatIDidExamplesContent');
             const isExpanded = content.classList.contains('visible');
             
             if (isExpanded) {
@@ -1126,7 +1110,6 @@
                 renderStep();
                 updateProgress();
                 updateNavigation();
-                // Scroll to top of the page
                 window.scrollTo(0, 0);
             }
         }
@@ -1137,7 +1120,6 @@
                 renderStep();
                 updateProgress();
                 updateNavigation();
-                // Scroll to top of the page
                 window.scrollTo(0, 0);
             }
         }
@@ -1156,7 +1138,6 @@
             const nextBtn = document.getElementById('nextBtn');
             
             if (currentStep === totalSteps - 1) {
-                // Step 5 - Final review step with custom navigation
                 document.getElementById('navigation').innerHTML = `
                     <button class="btn btn-secondary" onclick="previousStep()">
                         ← Back to Edit
@@ -1172,7 +1153,6 @@
                     </button>
                 `;
             } else {
-                // Restore normal navigation for all other steps
                 document.getElementById('navigation').innerHTML = `
                     <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
                         ← Previous
@@ -1185,7 +1165,6 @@
                     </button>
                 `;
                 
-                // Update the restored buttons
                 const restoredPrevBtn = document.getElementById('prevBtn');
                 const restoredNextBtn = document.getElementById('nextBtn');
                 
@@ -1203,11 +1182,9 @@
 
         function updateReflection(field, value) {
             reflection[field] = value;
-            // If the field is the includeTeacherParentComment checkbox, re-render
-            // to show/hide the section immediately and scroll.
             if (field === 'includeTeacherParentComment') {
-                 renderStep(); // Re-render to show/hide the section
-                 if (value) { // If the checkbox is checked
+                 renderStep();
+                 if (value) {
                     scrollToElement('teacherCommentSection');
                  }
             }
@@ -1287,7 +1264,6 @@
                     imagesHtml = `<div style="background-color: #dbeafe; border: 1px solid #93c5fd; padding: 0.75rem; border-radius: 6px; margin: 1rem; font-size: 13px; color: #1e40af;">📎 Evidence: ${fileType}: ${reflection.evidenceFileName}</div>`;
                 }
 
-                // Building read-only sections for the PDF, including updated prompt text
                 const studentWhatIDidSection = `
                     <div style="margin-bottom: 1.5rem; page-break-inside: avoid;">
                         <div style="background: #14b8a6; color: white; padding: 0.75rem 1rem; border-radius: 6px 6px 0 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
@@ -1333,21 +1309,17 @@
                     </div>
                 `;
 
-                // Teacher/Parent Comment Section for PDF
                 let teacherParentCommentSection = '';
                 if (reflection.includeTeacherParentComment) {
                     let teacherCommentContentHTML;
-                    // Blank space for handwritten notes - no text, just space
                     const blankSpaceForHandwrittenNotes = `
                         <div style="height: 180px; background-color: #ffffff; border: 1px dashed #cbd5e1; padding: 1rem; border-radius: 0.5rem; text-align: left; display: flex; align-items: center; justify-content: center;">
                             </div>
                     `;
 
                     if (reflection.teacherParentComment) {
-                        // If there's content, display it directly, ensuring light background and border
                         teacherCommentContentHTML = `<div style="color: #374151; line-height: 1.6; white-space: pre-wrap; text-align: left !important; padding: 1rem; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.5rem;">${reflection.teacherParentComment}</div>`;
                     } else {
-                        // If no content, display a clear, light blank area for handwritten notes
                         teacherCommentContentHTML = blankSpaceForHandwrittenNotes;
                     }
 
@@ -1366,7 +1338,6 @@
                         </div>
                     `;
                 }
-                // END NEW
 
                 const printContent = `
                     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #0f172a; max-width: 8.5in; margin: 0 auto; padding: 0.5rem; background: white;">
@@ -1399,32 +1370,25 @@
                     </div>
                 `;
 
-                // Create a temporary container for printing
                 const printContainer = document.createElement('div');
                 printContainer.innerHTML = printContent;
-                printContainer.style.display = 'none'; // Keep hidden initially
+                printContainer.style.display = 'none';
                 printContainer.id = 'print-content';
                 
-                // Remove any existing print content container to ensure clean print
                 const existing = document.getElementById('print-content');
                 if (existing) {
                     existing.remove();
                 }
                 
-                // Add to document body
                 document.body.appendChild(printContainer);
-                
-                // Ensure the main app UI is hidden during printing
                 document.getElementById('mainApp').style.display = 'none';
 
-                // Trigger print
                 setTimeout(() => {
                     window.print();
                     
-                    // Clean up after printing: remove print container and restore main app UI
                     setTimeout(() => {
                         printContainer.remove();
-                        document.getElementById('mainApp').style.display = 'block'; // Restore main app UI
+                        document.getElementById('mainApp').style.display = 'block';
                     }, 1000);
                 }, 100);
             }
@@ -1435,7 +1399,7 @@
         function startNewReflection() {
             reflection = {
                 studentName: '',
-                yearLevel: '', // NEW: Reset year level
+                yearLevel: '',
                 date: '',
                 subject: '',
                 whatIDid: '',
@@ -1446,22 +1410,20 @@
                 learningStrengthsReflection: '',
                 selectedFuturePrompts: [],
                 whereThisTakesMe: '',
-                includeTeacherParentComment: false, // NEW: Reset on new reflection
-                teacherParentComment: '' // NEW: Reset on new reflection
+                includeTeacherParentComment: false,
+                teacherParentComment: ''
             };
             currentStep = 0;
             init();
         }
 
         function goToHub() {
-            window.location.href = 'index.html'; // Points to the new hub homepage
+            window.location.href = 'index.html';
         }
 
-        // New function to scroll to an element
         function scrollToElement(elementId) {
             const element = document.getElementById(elementId);
             if (element) {
-                // Use a slight delay to allow for rendering changes (like display: none to block)
                 setTimeout(() => {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100); 
@@ -1481,16 +1443,14 @@
                 case 2:
                     content.innerHTML = renderLearningStrengthsStep();
                     break;
-                case 3: // This is the 'Where This Could Take Me' step
+                case 3:
                     content.innerHTML = renderWhereThisTakesMeStep();
-                    // If the checkbox is already checked when arriving at this step (e.g., via 'back' button)
                     if (reflection.includeTeacherParentComment) {
                         scrollToElement('teacherCommentSection'); 
                     }
                     break;
                 case 4:
                     content.innerHTML = renderReviewStep();
-                    // No need to scroll here, as the teacher comment is now input on step 3.
                     break;
             }
         }
@@ -1587,22 +1547,13 @@
                             • Use the examples below if you need ideas.
                         </div>
 
-                        <div class="help-section">
-                            <button class="help-toggle" onclick="toggleHelp('whatIDidHelp')">
-                                ❓ Need help? See examples
+                        <div class="examples-section">
+                            <button class="examples-toggle" id="whatIDidExamplesToggle" onclick="toggleWhatIDidExamples()">
+                                💡 See examples from other students
                             </button>
-                            <div id="whatIDidHelp" class="help-content" style="display: none;">
-                                <h4>Example: Sam's Science Reflection (Year 8)</h4>
-                                <p><em>"We did a plant experiment where we grew beans in different conditions - some in the dark, some in sunlight, and some with different amounts of water. I was in charge of measuring the plants every day for two weeks and recording the data in our science journal."</em></p>
-                                
-                                <h4>Example: Alex's English Reflection (Year 12)</h4>
-                                <p><em>"I wrote a creative short story for our narrative writing unit. The assignment was to write an 800-word story that included dialogue and showed character development. I chose to write about a teenager who discovers an old photo that reveals a family secret. This was a three-week project where we went through drafting, peer review, and revision."</em></p>
-                                
-                                <h4>Example: Maya's Maths Reflection (Year 5)</h4>
-                                <p><em>"We learned about fractions by making pizzas with playdough and cutting them into different pieces. Then we had to figure out which pizza slices were bigger and add fractions together. I made a pizza with 8 slices and practised showing 3/8, 5/8, and other fractions."</em></p>
-
-                                <h4>Example: Jordan's Maths Reflection (Year 7)</h4>
-                                <p><em>"We had to do word problems about money. I didn't get the right answer but I tried different ways. First I tried adding but that was wrong. Then I tried taking away. I asked my friend for help too. It was hard."</em></p>
+                            <div class="examples-content" id="whatIDidExamplesContent">
+                                <div class="examples-intro">Examples to inspire your reflection:</div>
+                                ${renderWhatIDidExamples(reflection.yearLevel)}
                             </div>
                         </div>
 
@@ -1664,8 +1615,6 @@
                             • Start with "X helped power my learning because..."<br>
                             • Use the examples above for inspiration.
                         </div>
-
-
 
                         <textarea class="form-textarea" rows="6" 
                                         onchange="updateReflection('learningStrengthsReflection', this.value)">${reflection.learningStrengthsReflection || ''}</textarea>
@@ -1925,10 +1874,9 @@
                 month: 'long', 
                 day: 'numeric' 
             };
-            return date.toLocaleDateString('en-NZ', options); // Using en-NZ for consistent date format
+            return date.toLocaleDateString('en-NZ', options);
         }
 
-        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
