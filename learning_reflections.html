@@ -1928,7 +1928,8 @@
             return `
                 <div class="section-intro">
                     <h2>What I Did</h2>
-                    <p>Describe what you worked on. Be specific about what you actually did, for how long, and why you were doing it.</p>
+                    <p>Describe what you worked on.<br> 
+                    Be specific about what you actually did, for how long, and why you were doing it.</p>
                 </div>
 
                 <div class="form-group">
@@ -1962,13 +1963,6 @@
 
                 <div class="text-fields-container">
                     <div class="form-group">
-                        <label class="form-label">Describe what you worked on</label>
-                        <div class="input-guidance">
-                            <strong>Describe what you worked on:</strong><br>
-                            • What was the task and why were you doing it?<br>
-                            • Use the examples below if you need ideas.
-                        </div>
-
                         <div class="examples-section">
                             <button class="examples-toggle" id="whatIDidExamplesToggle" onclick="toggleWhatIDidExamples()">
                                 💡 See examples from other students
@@ -1977,6 +1971,12 @@
                                 <div class="examples-intro">Examples to inspire your reflection:</div>
                                 ${renderWhatIDidExamples(reflection.yearLevel, reflection.subject)}
                             </div>
+                        </div>
+                        <label class="form-label">Describe what you worked on</label>
+                        <div class="input-guidance">
+                            <strong>Describe what you worked on:</strong><br>
+                            • What was the task, how long did you work on it, and why were you doing it?<br>
+                            • Use the examples if you need ideas.
                         </div>
 
                         <textarea class="form-textarea" rows="6" 
