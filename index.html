@@ -405,7 +405,7 @@
             <input type="text" 
                    id="accessCode" 
                    class="access-input" 
-                   placeholder="Enter your school's access code..."
+                   placeholder="Enter the trial period access code: TRYME2"
                    onkeypress="handleAccessKeyPress(event)">
             
             <button class="access-button" onclick="checkAccess()">
@@ -489,7 +489,7 @@
             if (isExpanded) {
                 content.classList.remove('visible');
                 toggle.classList.remove('expanded');
-                toggle.innerHTML = '🎯 Ready to secure full access for your school?';
+                toggle.innerHTML = '🎯 FREE TRIAL PERIOD! Click to get your access code.';
             } else {
                 content.classList.add('visible');
                 toggle.classList.add('expanded');
