@@ -876,12 +876,23 @@
         const totalSteps = 5;
 
         const subjects = [
-            { group: 'Core Subjects', options: ['Maths', 'English', 'Science'] },
-            { group: 'Sciences', options: ['Biology', 'Chemistry', 'Physics'] },
-            { group: 'Social Sciences', options: ['History', 'Geography', 'Social Studies', 'Economics'] },
-            { group: 'Arts', options: ['Visual Arts', 'Music', 'Dance', 'Drama'] },
-            { group: 'Applied Learning', options: ['Physical Education', 'Technology', 'Languages'] },
-            { group: 'Other', options: ['Inquiry Learning', 'Other'] }
+            'Maths',
+            'English',
+            'Science',
+            'Biology',
+            'Chemistry',
+            'Physics',
+            'Social Studies',
+            'History',
+            'Geography',
+            'Economics',
+            'Visual Arts',
+            'Performing Arts',
+            'Languages',
+            'Physical Education',
+            'Technology',
+            'Inquiry Learning',
+            'Other'
         ];
 
         const yearLevels = [
@@ -892,7 +903,7 @@
         // What I Did examples data structure - REVISED for Years 5+
         const whatIDidExamples = {
             'Years 5-8': [
-                { year: 'Year 5', subject: 'Math', text: 'We learned about fractions by cutting up pizza models. I had to work out what 1/4 of 12 pieces would be and then check my answer by actually counting the pieces.' },
+                { year: 'Year 5', subject: 'Maths', text: 'We learned about fractions by cutting up pizza models. I had to work out what 1/4 of 12 pieces would be and then check my answer by actually counting the pieces.' },
                 { year: 'Year 6', subject: 'Science', text: 'We did an experiment about plant growth using different types of soil. I had to measure my bean plants every day for two weeks and record the data in a chart.' },
                 { year: 'Year 7', subject: 'English', text: 'I wrote a persuasive letter to the principal about getting more sports equipment. I had to research what equipment costs and think of good reasons why we need it.' },
                 { year: 'Year 8', subject: 'Art', text: 'We studied dot painting and I created my own artwork about my family\'s story. I researched the meaning of different symbols before planning my design.' },
@@ -1011,7 +1022,7 @@
             'Curiosity': {
                 'Years 5-8': [
                     { year: 'Year 5', subject: 'Science', text: 'I kept asking questions about why leaves change colour and discovered there are chemicals inside them that we can\'t usually see' },
-                    { year: 'Year 6', subject: 'Math', text: 'I didn\'t understand fractions at first, but I kept wondering \'what if I try this way?\' and slowly it started making sense' },
+                    { year: 'Year 6', subject: 'Maths', text: 'I didn\'t understand fractions at first, but I kept wondering \'what if I try this way?\' and slowly it started making sense' },
                     { year: 'Year 7', subject: 'History', text: 'I started researching what life was really like for ordinary people in medieval times and discovered stories that weren\'t in our textbook' },
                     { year: 'Year 8', subject: 'English', text: 'I was confused by this character\'s choice in the novel, but asking \'why would they do that?\' and also acting out a scene helped me understand something I\'d missed' },
                     { year: 'Year 6', subject: 'Art', text: 'I wondered how artists chose their symbols, so I researched the meanings and found stories behind each one' },
@@ -1027,10 +1038,10 @@
             },
             'Persistence': {
                 'Years 5-8': [
-                    { year: 'Year 5', subject: 'Math', text: 'I tried five different ways to solve the word problem and finally found one that made sense to me' },
+                    { year: 'Year 5', subject: 'Maths', text: 'I tried five different ways to solve the word problem and finally found one that made sense to me' },
                     { year: 'Year 6', subject: 'Technology', text: 'My tower kept falling down and I felt frustrated, but I kept trying different shapes until I built one that stayed up' },
                     { year: 'Year 7', subject: 'English', text: 'Writing is really hard for me, so I tried to remember stories I liked and do writing like those ones.' },
-                    { year: 'Year 8', subject: 'Math', text: 'I kept working on this algebra problem using different methods until I finally understood how the formula actually works' },
+                    { year: 'Year 8', subject: 'Maths', text: 'I kept working on this algebra problem using different methods until I finally understood how the formula actually works' },
                     { year: 'Year 6', subject: 'Music', text: 'Learning to play this piece was really hard, but I practiced the hard parts slowly, over and over, until my fingers remembered what to do' },
                     { year: 'Year 7', subject: 'Science', text: 'Our experiment failed three times, but each time we learned something new and eventually got results we could trust' }
                 ],
@@ -1045,7 +1056,7 @@
                 'Years 5-8': [
                     { year: 'Year 5', subject: 'Science', text: 'I pretended I was a raindrop travelling through the water cycle and it helped me remember all the steps' },
                     { year: 'Year 6', subject: 'English', text: 'I\'m not good at writing stories, but imagining I was actually in the scene helped me think of what to write next' },
-                    { year: 'Year 7', subject: 'Math', text: 'I visualised myself as a detective solving the math problem step by step, which helped me see the pattern' },
+                    { year: 'Year 7', subject: 'Maths', text: 'I visualised myself as a detective solving the math problem step by step, which helped me see the pattern' },
                     { year: 'Year 8', subject: 'History', text: 'I imagined what this event would look like through different people\'s eyes and suddenly the history made more sense' },
                     { year: 'Year 6', subject: 'Art', text: 'I imagined my painting coming to life and thought about what story it would tell, which helped me choose the right colors' },
                     { year: 'Year 7', subject: 'Dance', text: 'I imagined I was a tree growing from a seed to full size, and this helped me create movements that showed the whole life cycle' }
@@ -1063,7 +1074,7 @@
                     { year: 'Year 6', subject: 'Music', text: 'It\'s hard for me to concentrate sometimes, but when I listened closely to each instrument, I could hear how they worked together' },
                     { year: 'Year 7', subject: 'Science', text: 'I focused on the important details in the experiment and noticed a pattern that led to an important discovery' },
                     { year: 'Year 8', subject: 'English', text: 'I usually rush through reading, but when I slowed down I started to see how the author\'s word choices created the mood' },
-                    { year: 'Year 6', subject: 'Math', text: 'I used to make careless errors, but when I slowed down and focused on each step, my accuracy improved dramatically' },
+                    { year: 'Year 6', subject: 'Maths', text: 'I used to make careless errors, but when I slowed down and focused on each step, my accuracy improved dramatically' },
                     { year: 'Year 7', subject: 'Art', text: 'I concentrated on the way light fell across my subject and noticed subtle shadows I\'d never seen before' }
                 ],
                 'Years 9-13': [
@@ -1075,7 +1086,7 @@
             },
             'Thinking': {
                 'Years 5-8': [
-                    { year: 'Year 5', subject: 'Math', text: 'I thought about how this math problem was like building with blocks and that helped me figure out the answer' },
+                    { year: 'Year 5', subject: 'Maths', text: 'I thought about how this math problem was like building with blocks and that helped me figure out the answer' },
                     { year: 'Year 6', subject: 'Science', text: 'I was confused at first, but when I compared our science experiment to things I see in my garden, it clicked' },
                     { year: 'Year 7', subject: 'History', text: 'I looked at the different sides\' values in this historical conflict and it helped me understand more about why each side made their decisions' },
                     { year: 'Year 8', subject: 'English', text: 'I didn\'t get why the character acted that way, but thinking about their motivations helped me understand' },
@@ -1091,7 +1102,7 @@
             },
             'Collaboration': {
                 'Years 5-8': [
-                    { year: 'Year 5', subject: 'Math', text: 'I listened to my partner\'s idea about sorting the objects and we found a way that worked even better' },
+                    { year: 'Year 5', subject: 'Maths', text: 'I listened to my partner\'s idea about sorting the objects and we found a way that worked even better' },
                     { year: 'Year 6', subject: 'Art', text: 'I\'m quite shy, but when I shared my drawing with my group I learnt a new way to shade from them' },
                     { year: 'Year 7', subject: 'Social Studies', text: 'I added to my teammate\'s research and together we created a presentation that was stronger than we could have made alone' },
                     { year: 'Year 8', subject: 'English', text: 'I find it hard to speak up sometimes, but listening to different viewpoints in our debate helped me feel more confident in my ideas' },
@@ -1110,7 +1121,7 @@
                     { year: 'Year 5', subject: 'Art', text: 'I looked at my picture and asked \'how could this be even better?\' then added more details to make it clearer' },
                     { year: 'Year 6', subject: 'English', text: 'My handwriting is messy, but I kept practising until others could read my story easily' },
                     { year: 'Year 7', subject: 'English', text: 'I read my story out loud to check if it flowed well and rewrote the parts that sounded funny. Now it sounds smooth' },
-                    { year: 'Year 8', subject: 'Math', text: 'Math isn\'t my strongest subject, but I double-checked my work and caught a mistake that would have made everything wrong' },
+                    { year: 'Year 8', subject: 'Maths', text: 'Math isn\'t my strongest subject, but I double-checked my work and caught a mistake that would have made everything wrong' },
                     { year: 'Year 6', subject: 'Technology', text: 'I tested my bridge design lots of times and kept making small improvements until it could hold the weight' },
                     { year: 'Year 7', subject: 'Music', text: 'I practiced this piece until I could play it smoothly, then focused on adding feeling to make it really musical' }
                 ],
