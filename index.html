@@ -373,6 +373,7 @@
 
         .hub-option-card:hover .hub-option-icon {
             transform: scale(1.1) rotate(5deg);
+        }
 
         .hub-option-icon {
             font-size: 4rem;
@@ -618,6 +619,7 @@
 
             if (validCodes.has(code)) {
                 // Add success animation
+                const accessCard = document.querySelector('.access-card');
                 accessCard.classList.add('success-animation');
                 createConfetti(accessCard);
 
