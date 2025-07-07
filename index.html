@@ -113,6 +113,140 @@
             color: #64748b;
         }
 
+        /* NEW: Payment section styles using toggle design */
+        .payment-section {
+            margin-top: 2rem;
+        }
+
+        .payment-toggle {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            border: 2px solid #14b8a6;
+            border-radius: 1rem;
+            color: #0f766e;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .payment-toggle:hover::before {
+            left: 100%;
+        }
+
+        .payment-toggle:hover {
+            background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.25);
+            border-color: #0891b2;
+        }
+
+        .payment-toggle.expanded {
+            border-radius: 1rem 1rem 0 0;
+            background: linear-gradient(135deg, #14b8a6 0%, #0891b2 100%);
+            color: white;
+        }
+
+        .payment-content {
+            display: none;
+            background: white;
+            border: 2px solid #14b8a6;
+            border-top: none;
+            border-radius: 0 0 1rem 1rem;
+            padding: 2rem;
+            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.15);
+        }
+
+        .payment-content.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+        }
+
+        .payment-description {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .payment-button {
+            background: linear-gradient(135deg, #14b8a6, #0891b2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .payment-button:hover::before {
+            left: 100%;
+        }
+
+        .payment-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .payment-details {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
         /* Hub Content Styles */
         .hub-content {
             display: none; /* Hidden by default */
@@ -239,7 +373,7 @@
             .access-card {
                 padding: 1.5rem;
             }
-            .access-input, .access-button {
+            .access-input, .access-button, .payment-button {
                 padding: 0.75rem;
                 font-size: 0.9rem;
             }
@@ -287,6 +421,29 @@
                 Your school will provide you with a unique access code.<br>
                 This ensures a safe and ad-free learning environment, with no personal data collected.
             </div>
+
+            <!-- NEW: Payment section with toggle -->
+            <div class="payment-section">
+                <button class="payment-toggle" id="paymentToggle" onclick="togglePayment()">
+                    🎯 FREE TRIAL: click me to get access code?
+                </button>
+                <div class="payment-content" id="paymentContent">
+                    <div class="payment-description">
+                        TRYME2 - code expires on 16 July.
+                    </div>
+                    
+                    <a href="https://buy.stripe.com/5kQcN7c4jcAr0S55hc4Ni03" 
+                       target="_blank" 
+                       class="payment-button">
+                        Purchase Annual School Access - $299 NZD
+                    </a>
+                    
+                    <div class="payment-details">
+                        <strong>What you get:</strong> School-wide unlimited access for one year<br>
+                        <strong>Delivery:</strong> You'll receive your permanent access code within 12 hours of payment
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -322,6 +479,23 @@
     <script>
         // Valid access codes - for demonstration (these remain the same)
         const validCodes = new Set(['DEMO2025', 'TRYME2', 'SCHOOLALPHA', 'REFLECT2025']); 
+        
+        // Function to toggle payment section
+        function togglePayment() {
+            const toggle = document.getElementById('paymentToggle');
+            const content = document.getElementById('paymentContent');
+            const isExpanded = content.classList.contains('visible');
+            
+            if (isExpanded) {
+                content.classList.remove('visible');
+                toggle.classList.remove('expanded');
+                toggle.innerHTML = '🎯 Ready to secure full access for your school?';
+            } else {
+                content.classList.add('visible');
+                toggle.classList.add('expanded');
+                toggle.innerHTML = '🔼 Hide purchase option';
+            }
+        }
         
         function checkAccess() {
             const code = document.getElementById('accessCode').value.trim().toUpperCase();
