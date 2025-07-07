@@ -43,17 +43,18 @@
             height: auto; /* Maintain aspect ratio */
             margin: 0 auto 1.5rem; /* More space below logo */
             display: block; /* Ensures margin auto works */
+            border-radius: 50%;
             animation: logoPulse 5s ease-in-out infinite;
         }
 
         @keyframes logoPulse {
             0%, 100% { 
                 transform: scale(1);
-                filter: drop-shadow(0 0 5px rgba(20, 184, 166, 0.3));
+                box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
             }
             50% { 
                 transform: scale(1.05);
-                filter: drop-shadow(0 0 15px rgba(20, 184, 166, 0.6));
+                box-shadow: 0 0 40px rgba(20, 184, 166, 0.6);
             }
         }
 
