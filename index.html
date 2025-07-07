@@ -272,7 +272,7 @@
                 opacity: 1;
             }
             100% { 
-                transform: translateY(-400px) rotate(360deg);
+                transform: translateY(-100vh) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -578,21 +578,20 @@
         function createConfetti(element) {
             const colors = ['#14b8a6', '#0891b2', '#06d6a0', '#118ab2'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 50; i++) { // More particles for full coverage
                 const particle = document.createElement('div');
                 particle.className = 'confetti-particle';
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                particle.style.animationDelay = Math.random() * 1 + 's'; // Longer stagger
                 
                 element.appendChild(particle);
                 
-                // Remove particle after animation
                 setTimeout(() => {
                     if (particle.parentNode) {
                         particle.parentNode.removeChild(particle);
                     }
-                }, 1500);
+                }, 2500); // Longer cleanup time for higher flight
             }
         }
         
