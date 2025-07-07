@@ -1160,11 +1160,17 @@
                     'Physics': ['Science', 'Physics'], 
                     'Biology': ['Science', 'Biology'],
                     'Social Studies': ['Social Studies', 'History', 'Economics', 'Geography'],
-                    'Visual Arts': ['Art',],
+                    'History': ['Social Studies', 'Economics', 'Geography'],
+                    'Economics': ['Social Studies', 'History', 'Geography'], 
+                    'Geography': ['Social Studies', 'History', 'Economics'],
+                    'Visual Arts': ['Art'],
                     'Performing Arts': ['Music', 'Drama', 'Dance'],
+                    'Music': ['Performing Arts', 'Drama', 'Dance'],
+                    'Drama': ['Performing Arts', 'Music', 'Dance'],
+                    'Dance': ['Performing Arts', 'Drama', 'Music'],
                     'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
                     'Physical Education': ['Physical Education', 'PE'],
-                    'Technology': ['Technology', 'Engineering']
+                    'Technology': ['Technology']
                 };
                 
                 const matchingSubjects = subjectMap[subject] || [subject];
