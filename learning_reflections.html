@@ -1198,7 +1198,7 @@
         }
 
         // Function to render examples for selected dispositions with filtering
-        function renderExamplesForSelectedDispositions(selectedDispositions, yearLevel, subject) {
+        function renderExamplesForSelectedDispositions(selectedDispositions, yearLevel) {
             const ageBracket = getAgeBracket(yearLevel);
             
             let examplesHtml = '';
@@ -1207,51 +1207,32 @@
                     ? dispositionExamples[dispositionName][ageBracket] 
                     : [];
                 
-                // Filter examples based on subject if provided
-                let filteredExamples = examples;
-                if (subject && subject !== 'Other') {
-                    // Enhanced subject mapping for better filtering
-                    const subjectMap = {
-                    'Maths': ['Math', 'Maths'],
-                    'English': ['English'],
-                    'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
-                    'Social Studies': ['Social Studies', 'History', 'Economics', 'Geography'],
-                    'Visual Arts': ['Art',],
-                    'Performing Arts': ['Music', 'Drama', 'Dance'],
-                    'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
-                    'Physical Education': ['Physical Education', 'PE'],
-                    'Technology': ['Technology', 'Engineering']
-                    };
+                // Function to render examples for selected dispositions with filtering
+                function renderExamplesForSelectedDispositions(selectedDispositions, yearLevel) {
+                    const ageBracket = getAgeBracket(yearLevel);
                     
-                    const matchingSubjects = subjectMap[subject] || [subject];
-                    filteredExamples = examples.filter(example => 
-                        matchingSubjects.some(s => example.subject.includes(s))
-                    );
+                    let examplesHtml = '';
+                    selectedDispositions.forEach(dispositionName => {
+                        const examples = dispositionExamples[dispositionName] && dispositionExamples[dispositionName][ageBracket] 
+                            ? dispositionExamples[dispositionName][ageBracket] 
+                            : [];
+                        
+                        // Use all examples for this disposition and age bracket
+                        let filteredExamples = examples;
+                        
+                        filteredExamples.forEach(example => {
+                            examplesHtml += `
+                                <div class="example-card">
+                                    <div class="example-header">${example.year} - ${example.subject} - ${dispositionName}</div>
+                                    <div class="example-text">"${example.text}"</div>
+                                </div>
+                            `;
+                        });
+                    });
                     
-                    // If no examples match the specific subject, show all examples for this disposition
-                    if (filteredExamples.length === 0) {
-                        filteredExamples = examples;
-                    }
+                    return examplesHtml;
                 }
-                
-                filteredExamples.forEach(example => {
-                    examplesHtml += `
-                        <div class="example-card">
-                            <div class="example-header">${example.year} - ${example.subject} - ${dispositionName}</div>
-                            <div class="example-text">"${example.text}"</div>
-                        </div>
-                    `;
-                });
             });
-            
-            // Add a note if we're showing filtered results
-            if (subject && subject !== 'Other' && selectedDispositions.length > 0) {
-                examplesHtml = `
-                    <div style="color: #0f766e; font-size: 0.875rem; margin-bottom: 1rem; padding: 0.75rem; background: #f0fdfa; border-radius: 0.5rem; border: 1px solid #99f6e4;">
-                        📚 Showing ${subject} examples for ${selectedDispositions.join(', ')} from ${yearLevel} students
-                    </div>
-                ` + examplesHtml;
-            }
             
             return examplesHtml;
         }
@@ -2033,7 +2014,7 @@
                             </button>
                             <div class="examples-content" id="examplesContent">
                                 <div class="examples-intro">Examples to inspire your reflection:</div>
-                                ${renderExamplesForSelectedDispositions(reflection.learningStrengths, reflection.yearLevel, reflection.subject)}
+                                ${renderExamplesForSelectedDispositions(reflection.learningStrengths, reflection.yearLevel,)}
                             </div>
                         </div>
                     ` : ''}
