@@ -1211,7 +1211,7 @@
                     : [];
                 
                 // Use all examples for this disposition and age bracket
-                let filteredExamples = examples;
+                let filteredExamples = examples.slice(0, 2);
                 
                 filteredExamples.forEach(example => {
                     examplesHtml += `
