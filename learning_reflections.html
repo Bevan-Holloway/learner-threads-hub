@@ -1210,31 +1210,17 @@
                     ? dispositionExamples[dispositionName][ageBracket] 
                     : [];
                 
-                // Function to render examples for selected dispositions with filtering
-                function renderExamplesForSelectedDispositions(selectedDispositions, yearLevel) {
-                    const ageBracket = getAgeBracket(yearLevel);
-                    
-                    let examplesHtml = '';
-                    selectedDispositions.forEach(dispositionName => {
-                        const examples = dispositionExamples[dispositionName] && dispositionExamples[dispositionName][ageBracket] 
-                            ? dispositionExamples[dispositionName][ageBracket] 
-                            : [];
-                        
-                        // Use all examples for this disposition and age bracket
-                        let filteredExamples = examples;
-                        
-                        filteredExamples.forEach(example => {
-                            examplesHtml += `
-                                <div class="example-card">
-                                    <div class="example-header">${example.year} - ${example.subject} - ${dispositionName}</div>
-                                    <div class="example-text">"${example.text}"</div>
-                                </div>
-                            `;
-                        });
-                    });
-                    
-                    return examplesHtml;
-                }
+                // Use all examples for this disposition and age bracket
+                let filteredExamples = examples;
+                
+                filteredExamples.forEach(example => {
+                    examplesHtml += `
+                        <div class="example-card">
+                            <div class="example-header">${example.year} - ${example.subject} - ${dispositionName}</div>
+                            <div class="example-text">"${example.text}"</div>
+                        </div>
+                    `;
+                });
             });
             
             return examplesHtml;
