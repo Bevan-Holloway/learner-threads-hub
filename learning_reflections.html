@@ -1063,7 +1063,7 @@
                 ],
                 'Years 9-13': [
                     { year: 'Year 12', subject: 'Physics', text: 'I used metaphors to explain complex scientific concepts in my presentation, and that made them easier for my audience to understand' },
-                    { year: 'Year 10', subject: 'Engineering', text: 'I struggle with abstract concepts, but visualising different scenarios for this problem helped me find a solution that worked' },
+                    { year: 'Year 10', subject: 'Technology', text: 'I struggle with abstract concepts, but visualising different scenarios for this problem helped me find a solution that worked' },
                     { year: 'Year 13', subject: 'English', text: 'I imagined the story from the villain\'s perspective and suddenly understood why the author made certain choices about character development' },
                     { year: 'Year 9', subject: 'Geography', text: 'I visualised what our town would look like in 50 years with climate change, which helped me understand the importance of sustainable planning' }
                 ]
@@ -1094,8 +1094,8 @@
                     { year: 'Year 7', subject: 'Art', text: 'I analysed how different artists use color to create mood and use those techniques in my own painting' }
                 ],
                 'Years 9-13': [
-                    { year: 'Year 11', subject: 'Psychology', text: 'I critically examined the methodology of this research study and identified potential biases that affected the conclusions' },
-                    { year: 'Year 9', subject: 'Geography', text: 'Connecting ideas is hard for me, but I kept looking for links between different topics until I found patterns that explained things' },
+                    { year: 'Year 11', subject: 'Social Studies', text: 'I critically examined the methodology of this research study and identified potential biases that affected the conclusions' },
+                    { year: 'Year 9', subject: 'English', text: 'Connecting ideas is hard for me, but I kept looking for links between different topics until I found patterns that explained things' },
                     { year: 'Year 13', subject: 'Economics', text: 'I questioned the assumptions behind this economic model and discovered how cultural factors influence its applicability' },
                     { year: 'Year 10', subject: 'Science', text: 'I looked closely the relationship between variables in our experiment and realised we needed to control for factors we hadn\'t considered' }
                 ]
@@ -1111,7 +1111,7 @@
                 ],
                 'Years 9-13': [
                     { year: 'Year 11', subject: 'Business Studies', text: 'I led our group discussion and made sure everyone\'s ideas contributed to our solution, resulting in a more comprehensive analysis' },
-                    { year: 'Year 10', subject: 'Design', text: 'Working with others doesn\'t come naturally to me, but giving and receiving feedback improved both our projects a lot' },
+                    { year: 'Year 10', subject: 'Visual Arts', text: 'Working with others doesn\'t come naturally to me, but giving and receiving feedback improved both our projects a lot' },
                     { year: 'Year 13', subject: 'Chemistry', text: 'Our lab group divided responsibilities based on each person\'s strengths, and we cross-checked each other\'s calculations for accuracy' },
                     { year: 'Year 9', subject: 'Technology', text: 'I presented my points for features I believed were important, but learned to compromise on design decisions' }
                 ]
@@ -1153,14 +1153,12 @@
             if (subject && subject !== 'Other') {
                 // Enhanced subject mapping for better filtering
                 const subjectMap = {
-                    'Math': ['Math', 'Maths'],
-                    'English/Language Arts': ['English'],
+                    'Maths': ['Math', 'Maths'],
+                    'English': ['English'],
                     'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
-                    'Social Studies': ['Social Studies', 'History'],
-                    'Art/Creative': ['Art'],
-                    'Music': ['Music'],
-                    'Dance': ['Dance'],
-                    'Drama': ['Drama'],
+                    'Social Studies': ['Social Studies', 'History', 'Economics', 'Geography'],
+                    'Visual Arts': ['Art',],
+                    'Performing Arts': ['Music', 'Drama', 'Dance'],
                     'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
                     'Physical Education': ['Physical Education', 'PE'],
                     'Technology': ['Technology', 'Engineering']
@@ -1214,17 +1212,15 @@
                 if (subject && subject !== 'Other') {
                     // Enhanced subject mapping for better filtering
                     const subjectMap = {
-                        'Math': ['Math', 'Maths'],
-                        'English/Language Arts': ['English'],
-                        'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
-                        'Social Studies': ['Social Studies', 'History'],
-                        'Art/Creative': ['Art'],
-                        'Music': ['Music'],
-                        'Dance': ['Dance'],
-                        'Drama': ['Drama'],
-                        'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
-                        'Physical Education': ['Physical Education', 'PE'],
-                        'Technology': ['Technology', 'Engineering']
+                    'Maths': ['Math', 'Maths'],
+                    'English': ['English'],
+                    'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
+                    'Social Studies': ['Social Studies', 'History', 'Economics', 'Geography'],
+                    'Visual Arts': ['Art',],
+                    'Performing Arts': ['Music', 'Drama', 'Dance'],
+                    'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
+                    'Physical Education': ['Physical Education', 'PE'],
+                    'Technology': ['Technology', 'Engineering']
                     };
                     
                     const matchingSubjects = subjectMap[subject] || [subject];
@@ -1350,17 +1346,15 @@
                 let filteredExamples = examples;
                 if (subject && subject !== 'Other') {
                     const subjectMap = {
-                        'Math': ['Math', 'Maths'],
-                        'English/Language Arts': ['English'],
-                        'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
-                        'Social Studies': ['Social Studies', 'History'],
-                        'Art/Creative': ['Art'],
-                        'Music': ['Music'],
-                        'Dance': ['Dance'],
-                        'Drama': ['Drama'],
-                        'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
-                        'Physical Education': ['Physical Education', 'PE'],
-                        'Technology': ['Technology', 'Engineering']
+                    'Maths': ['Math', 'Maths'],
+                    'English': ['English'],
+                    'Science': ['Science', 'Chemistry', 'Physics', 'Biology'],
+                    'Social Studies': ['Social Studies', 'History', 'Economics', 'Geography'],
+                    'Visual Arts': ['Art',],
+                    'Performing Arts': ['Music', 'Drama', 'Dance'],
+                    'Languages': ['Languages', 'French', 'Spanish', 'Māori'],
+                    'Physical Education': ['Physical Education', 'PE'],
+                    'Technology': ['Technology', 'Engineering']
                     };
                     
                     const matchingSubjects = subjectMap[subject] || [subject];
