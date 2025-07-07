@@ -876,18 +876,12 @@
         const totalSteps = 5;
 
         const subjects = [
-            'Math',
-            'English/Language Arts',
-            'Science',
-            'Social Studies',
-            'Art/Creative',
-            'Music',
-            'Dance',
-            'Drama',
-            'Languages',
-            'Physical Education',
-            'Technology',
-            'Other'
+            { group: 'Core Subjects', options: ['Maths', 'English', 'Science'] },
+            { group: 'Sciences', options: ['Biology', 'Chemistry', 'Physics'] },
+            { group: 'Social Sciences', options: ['History', 'Geography', 'Social Studies', 'Economics'] },
+            { group: 'Arts', options: ['Visual Arts', 'Music', 'Dance', 'Drama'] },
+            { group: 'Applied Learning', options: ['Physical Education', 'Technology', 'Languages'] },
+            { group: 'Other', options: ['Inquiry Learning', 'Other'] }
         ];
 
         const yearLevels = [
