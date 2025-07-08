@@ -125,32 +125,31 @@
             color: #64748b;
         }
 
-        /* NEW: Payment section styles using toggle design */
-        .payment-section {
-            margin-top: 2rem;
+        /* Toggle section styles using consistent design */
+        .toggle-section {
+            margin-top: 1.5rem;
         }
 
-        .payment-toggle {
+        .toggle-button {
             width: 100%;
-            padding: 1.25rem;
+            padding: 1rem;
             background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
             border: 2px solid #14b8a6;
             border-radius: 1rem;
             color: #0f766e;
-            font-weight: 700;
-            font-size: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            text-align: center;
+            justify-content: space-between;
+            text-align: left;
             position: relative;
             overflow: hidden;
         }
 
-        .payment-toggle::before {
+        .toggle-button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -161,35 +160,35 @@
             transition: left 0.5s ease;
         }
 
-        .payment-toggle:hover::before {
+        .toggle-button:hover::before {
             left: 100%;
         }
 
-        .payment-toggle:hover {
+        .toggle-button:hover {
             background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 184, 166, 0.25);
             border-color: #0891b2;
         }
 
-        .payment-toggle.expanded {
+        .toggle-button.expanded {
             border-radius: 1rem 1rem 0 0;
             background: linear-gradient(135deg, #14b8a6 0%, #0891b2 100%);
             color: white;
         }
 
-        .payment-content {
+        .toggle-content {
             display: none;
             background: white;
             border: 2px solid #14b8a6;
             border-top: none;
             border-radius: 0 0 1rem 1rem;
-            padding: 2rem;
+            padding: 1.5rem;
             animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 8px 25px rgba(20, 184, 166, 0.15);
         }
 
-        .payment-content.visible {
+        .toggle-content.visible {
             display: block;
         }
 
@@ -202,36 +201,36 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
-                max-height: 500px;
+                max-height: 1000px;
             }
         }
 
-        .payment-description {
-            font-size: 0.95rem;
+        .toggle-description {
+            font-size: 0.9rem;
             color: #64748b;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             line-height: 1.5;
         }
 
-        .payment-button {
+        .demo-button, .action-button {
             background: linear-gradient(135deg, #14b8a6, #0891b2);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
             text-decoration: none;
             display: inline-block;
-            margin-bottom: 1rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
             position: relative;
             overflow: hidden;
         }
 
-        .payment-button::before {
+        .demo-button::before, .action-button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -242,21 +241,125 @@
             transition: left 0.5s ease;
         }
 
-        .payment-button:hover::before {
+        .demo-button:hover::before, .action-button:hover::before {
             left: 100%;
         }
 
-        .payment-button:hover {
+        .demo-button:hover, .action-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
             color: white;
             text-decoration: none;
         }
 
-        .payment-details {
+        .disposition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .disposition-mini {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+            border-left: 3px solid #14b8a6;
+        }
+
+        .disposition-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .disposition-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #0f766e;
+        }
+
+        .details-text {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.4;
+            margin-top: 0.5rem;
+        }
+
+        .tool-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            border-left: 4px solid #14b8a6;
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #0891b2;
+        }
+
+        .tool-title {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tool-description {
             font-size: 0.875rem;
             color: #64748b;
-            line-height: 1.5;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .tool-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-features li {
+            font-size: 0.8rem;
+            color: #134e4a;
+            margin-bottom: 0.25rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #14b8a6;
+            font-weight: bold;
+        }
+
+        .value-prop {
+            background: linear-gradient(135deg, #e0f2fe, #cffafe);
+            border: 2px solid #0891b2;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .value-prop h4 {
+            color: #0e7490;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-prop p {
+            color: #0e7490;
+            font-size: 0.875rem;
+            line-height: 1.4;
         }
 
         /* Success animation styles */
@@ -379,6 +482,7 @@
             font-size: 4rem;
             margin-bottom: 1rem;
             color: #0891b2;
+            transition: all 0.3s ease;
         }
 
         .hub-option-title {
@@ -432,13 +536,19 @@
             .hub-option-title {
                 font-size: 1.5rem;
             }
+            .disposition-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            .tool-showcase {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
             .access-card {
                 padding: 1.5rem;
             }
-            .access-input, .access-button, .payment-button {
+            .access-input, .access-button, .demo-button, .action-button {
                 padding: 0.75rem;
                 font-size: 0.9rem;
             }
@@ -456,6 +566,13 @@
             }
             .hub-option-description {
                 font-size: 0.9rem;
+            }
+            .toggle-button {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+            .toggle-content {
+                padding: 1rem;
             }
         }
     </style>
@@ -487,32 +604,226 @@
                 This ensures a safe and ad-free learning environment, with no personal data collected.
             </div>
 
-            <!-- NEW: Payment section with toggle -->
-            <div class="payment-section">
-                <button class="payment-toggle" id="paymentToggle" onclick="togglePayment()">
-                    🎯 FREE TRIAL PERIOD! Learn More
+            <!-- 1. The Magnificent Seven Dispositions -->
+            <div class="toggle-section">
+                <button class="toggle-button" id="dispositionsToggle" onclick="toggleSection('dispositions')">
+                    <span>📚 The Magnificent Seven Dispositions</span>
+                    <span id="dispositionsIcon">+</span>
                 </button>
-                <div class="payment-content" id="paymentContent">
-                    <div class="payment-description">
-                        <strong>Try the Learner Threads Hub</strong><br> 
-                        Free and unlimited, until 16 July.<br>
-                        <br>
-                        Explore the Learning Navigator, which helps your learners find their next learning move.<br>
-                        <br>
-                        Dive into Learning Reflections, and see how it guides your learners in the creation of a learning story that supports metacognition.
+                <div class="toggle-content" id="dispositionsContent">
+                    <div class="toggle-description">
+                        <strong>Being a good learner has nothing to do with IQ.</strong> It means engaging intelligently with things that are complicated, confusing, and challenging in order to grow ever more competent. These seven dispositions allow all learners to stretch their intelligence beyond what they thought possible.
+                    </div>
+                    
+                    <div class="disposition-grid">
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">🔍</div>
+                            <div class="disposition-name">Curiosity</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">💪</div>
+                            <div class="disposition-name">Persistence</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">💭</div>
+                            <div class="disposition-name">Imagination</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">🎯</div>
+                            <div class="disposition-name">Attention</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">🧠</div>
+                            <div class="disposition-name">Thinking</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">🤝</div>
+                            <div class="disposition-name">Communication & Collaboration</div>
+                        </div>
+                        <div class="disposition-mini">
+                            <div class="disposition-icon">⭐</div>
+                            <div class="disposition-name">Craftsmanship</div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🔍</span>
+                                <strong style="color: #0f766e;">Curiosity</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">is our engine of learning</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Curious learners have minds full of questions, enjoy exploring new things, and relish being amazed. They may question things that are "taken for granted."</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">💪</span>
+                                <strong style="color: #0f766e;">Persistence</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">helps us stay engaged</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Persistent learners stay intelligently engaged when things get hard. They're willing to risk, put in practice time, and aren't afraid of difficulty or complexity.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">💭</span>
+                                <strong style="color: #0f766e;">Imagination</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">is where we play with ideas</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Imaginative learners are inventive risk-takers who see associations others miss. They make good use of metaphors and enjoy day-dreaming about possibilities.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🎯</span>
+                                <strong style="color: #0f766e;">Attention</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">focuses us on what matters</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Attentive learners can prioritise and concentrate well. They're observant, follow interests, and have strategies that help them focus without getting hijacked by distractions.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🧠</span>
+                                <strong style="color: #0f766e;">Thinking</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">is how we sharpen ideas</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Thinking learners like to "hook things up" and think things through carefully. They're committed to understanding deeply and testing ideas, even when challenging.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🤝</span>
+                                <strong style="color: #0f766e;">Communication & Collaboration</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">connect us to others</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Collaborative learners can take on varying group roles, build on others' contributions, and communicate clearly. They understand others and use feedback effectively.</p>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span style="font-size: 1.2rem;">⭐</span>
+                                <strong style="color: #0f766e;">Craftsmanship</strong>
+                                <span style="font-size: 0.8rem; color: #64748b;">drives us toward mastery</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Caring learners have an ethic of excellence. They have a nose for quality, work on improving products, and know the importance of reviewing and revising.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="details-text">
+                        <strong>Head, Heart, Hand:</strong> Each disposition can be expressed through thinking (Head), emotion (Heart), and action (Hand), creating rich learning experiences across all subjects. The Navigator helps students access these different expressions when they're stuck, while Reflections helps them recognize and celebrate when they've used these dispositions.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. What is the Learner Threads Hub? -->
+            <div class="toggle-section">
+                <button class="toggle-button" id="whatIsHubToggle" onclick="toggleSection('whatIsHub')">
+                    <span>🎯 What is the Learner Threads Hub?</span>
+                    <span id="whatIsHubIcon">+</span>
+                </button>
+                <div class="toggle-content" id="whatIsHubContent">
+                    <div class="toggle-description">
+                        The Hub combines two powerful tools that work together to develop students' learning dispositions and metacognitive awareness.
+                    </div>
+                    
+                    <div class="tool-showcase">
+                        <div class="tool-card">
+                            <div class="tool-icon">🧭</div>
+                            <div class="tool-title">Learning Navigator</div>
+                            <div class="tool-description">
+                                When students feel stuck, the Navigator provides instant, targeted strategies based on the seven learning dispositions.
+                            </div>
+                            <ul class="tool-features">
+                                <li>Subject-specific learning moves</li>
+                                <li>Head, Heart, Hand approaches</li>
+                                <li>Builds learning agency</li>
+                                <li>Develops problem-solving resilience</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon">✨</div>
+                            <div class="tool-title">Learning Reflections</div>
+                            <div class="tool-description">
+                                Students create meaningful learning stories that capture growth, celebrate strengths, and plan future learning.
+                            </div>
+                            <ul class="tool-features">
+                                <li>Metacognitive reflection prompts</li>
+                                <li>Evidence-based learning stories</li>
+                                <li>Teacher/parent collaboration space</li>
+                                <li>Professional PDF output</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="value-prop">
+                        <h4>🔗 How They Work Together</h4>
+                        <p>Students use the Navigator to develop their learning powers, then reflect on that growth using the Reflections tool. This creates a powerful cycle of action, reflection, and development that builds true learning expertise.</p>
+                    </div>
+                    
+                    <div class="details-text">
+                        <strong>For Teachers:</strong> Both tools provide rich insights into student thinking and create opportunities for meaningful learning conversations.<br>
+                        <strong>For Students:</strong> They develop genuine learning agency and the vocabulary to articulate their own growth.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Try the Hub (Free Demo) -->
+            <div class="toggle-section">
+                <button class="toggle-button" id="demoToggle" onclick="toggleSection('demo')">
+                    <span>🆓 Try the Hub (Free Demo)</span>
+                    <span id="demoIcon">+</span>
+                </button>
+                <div class="toggle-content" id="demoContent">
+                    <div class="toggle-description">
+                        Experience both tools with simplified demo versions. Perfect for exploring how the Navigator and Reflections work before committing to full access.
+                    </div>
+                    
+                    <a href="navigator_demo.html" class="demo-button">🧭 Try Navigator Demo</a>
+                    <a href="reflections_tour.html" class="demo-button">✨ Try Reflections Tour</a>
+                    
+                    <div class="details-text">
+                        <strong>Navigator Demo:</strong> Explore 2 subjects with 3 strategies per disposition<br>
+                        <strong>Reflections Tour:</strong> See the complete reflection process with real examples<br><br>
+                        Full versions include expanded subject coverage, complete reflection tools, and teacher resources.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Unlock the Full Hub -->
+            <div class="toggle-section">
+                <button class="toggle-button" id="subscriptionToggle" onclick="toggleSection('subscription')">
+                    <span>🚀 Unlock the Full Hub</span>
+                    <span id="subscriptionIcon">+</span>
+                </button>
+                <div class="toggle-content" id="subscriptionContent">
+                    <div class="toggle-description">
+                        <strong>Ready to transform your students' learning?</strong><br> 
+                        Join schools using Learner Threads to develop powerful, confident learners.
+                    </div>
+                    
+                    <div class="value-prop">
+                        <h4>🎓 What Full Access Includes</h4>
+                        <p><strong>Complete Navigator:</strong> 8 subjects × 7 dispositions × 9 strategies = 504 research-based learning moves<br>
+                        <strong>Full Reflections:</strong> Comprehensive reflection frameworks with examples from every year level<br>
                     </div>
                     
                     <a href="https://buy.stripe.com/5kQcN7c4jcAr0S55hc4Ni03" 
                        target="_blank" 
-                       class="payment-button">
-                        Purchase Annual School Access - $299 NZD
+                       class="action-button">
+                        🏫 School Access - $299 NZD/year
                     </a>
                     
-                    <div class="payment-details">
-                        <strong>What you get:</strong> School-wide unlimited access for one year.<br>
-                        <strong>Delivery:</strong> You'll receive your permanent access code by email within 12 hours of payment.<br>
+                    <div class="details-text">
+                        <strong>What you get:</strong> Unlimited access for your entire school community<br>
+                        <strong>Delivery:</strong> Permanent access code delivered within 12 hours<br>
+                        <strong>Support:</strong> Implementation guidance and ongoing updates<br>
                         <br>
-                        bevan@learnerthreads.com | learnerthreads.com 
+                        <strong>Free trial until 16 July 2025</strong> - explore everything with code TRYME2<br>
+                        <br>
+                        Questions? Contact bevan@learnerthreads.com | learnerthreads.com 
                     </div>
                 </div>
             </div>
@@ -600,20 +911,21 @@
             }
         }
         
-        // Function to toggle payment section
-        function togglePayment() {
-            const toggle = document.getElementById('paymentToggle');
-            const content = document.getElementById('paymentContent');
+        // Function to toggle any section
+        function toggleSection(sectionId) {
+            const toggle = document.getElementById(sectionId + 'Toggle');
+            const content = document.getElementById(sectionId + 'Content');
+            const icon = document.getElementById(sectionId + 'Icon');
             const isExpanded = content.classList.contains('visible');
             
             if (isExpanded) {
                 content.classList.remove('visible');
                 toggle.classList.remove('expanded');
-                toggle.innerHTML = '🎯 FREE TRIAL PERIOD! Learn More ...';
+                icon.textContent = '+';
             } else {
                 content.classList.add('visible');
                 toggle.classList.add('expanded');
-                toggle.innerHTML = '🔼 Hide purchase option';
+                icon.textContent = '−';
             }
         }
         
