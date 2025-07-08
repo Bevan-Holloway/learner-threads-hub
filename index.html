@@ -286,6 +286,52 @@
             margin-top: 0.5rem;
         }
 
+        .disposition-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .disposition-detail-card {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border: 1px solid #99f6e4;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border-left: 4px solid #14b8a6;
+        }
+
+        .disposition-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .disposition-detail-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .disposition-detail-name {
+            color: #0f766e;
+            flex-shrink: 0;
+        }
+
+        .disposition-tagline {
+            font-size: 0.8rem;
+            color: #64748b;
+            flex-shrink: 1;
+        }
+
+        .disposition-detail-text {
+            font-size: 0.85rem;
+            color: #134e4a;
+            line-height: 1.4;
+            margin: 0;
+        }
+
         .tool-showcase {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -542,6 +588,27 @@
             .tool-showcase {
                 grid-template-columns: 1fr;
             }
+            .disposition-details {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                margin: 1rem 0;
+            }
+            .disposition-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            .disposition-detail-name {
+                font-size: 0.95rem;
+            }
+            .disposition-tagline {
+                font-size: 0.75rem;
+                margin-left: 0;
+            }
+            .disposition-detail-text {
+                font-size: 0.8rem;
+                line-height: 1.3;
+            }
         }
 
         @media (max-width: 480px) {
@@ -646,68 +713,68 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">🔍</span>
-                                <strong style="color: #0f766e;">Curiosity</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">is our engine of learning</span>
+                    <div class="disposition-details">
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">🔍</span>
+                                <strong class="disposition-detail-name">Curiosity</strong>
+                                <span class="disposition-tagline">is our engine of learning</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Curious learners have minds full of questions, enjoy exploring new things, and relish being amazed. They may question things that are "taken for granted."</p>
+                            <p class="disposition-detail-text">Curious learners have minds full of questions, enjoy exploring new things, and relish being amazed. They may question things that are "taken for granted."</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">💪</span>
-                                <strong style="color: #0f766e;">Persistence</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">helps us stay engaged</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">💪</span>
+                                <strong class="disposition-detail-name">Persistence</strong>
+                                <span class="disposition-tagline">helps us stay engaged</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Persistent learners stay intelligently engaged when things get hard. They're willing to risk, put in practice time, and aren't afraid of difficulty or complexity.</p>
+                            <p class="disposition-detail-text">Persistent learners stay intelligently engaged when things get hard. They're willing to risk, put in practice time, and aren't afraid of difficulty or complexity.</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">💭</span>
-                                <strong style="color: #0f766e;">Imagination</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">is where we play with ideas</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">💭</span>
+                                <strong class="disposition-detail-name">Imagination</strong>
+                                <span class="disposition-tagline">is where we play with ideas</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Imaginative learners are inventive risk-takers who see associations others miss. They make good use of metaphors and enjoy day-dreaming about possibilities.</p>
+                            <p class="disposition-detail-text">Imaginative learners are inventive risk-takers who see associations others miss. They make good use of metaphors and enjoy day-dreaming about possibilities.</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">🎯</span>
-                                <strong style="color: #0f766e;">Attention</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">focuses us on what matters</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">🎯</span>
+                                <strong class="disposition-detail-name">Attention</strong>
+                                <span class="disposition-tagline">focuses us on what matters</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Attentive learners can prioritise and concentrate well. They're observant, follow interests, and have strategies that help them focus without getting hijacked by distractions.</p>
+                            <p class="disposition-detail-text">Attentive learners can prioritise and concentrate well. They're observant, follow interests, and have strategies that help them focus without getting hijacked by distractions.</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">🧠</span>
-                                <strong style="color: #0f766e;">Thinking</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">is how we sharpen ideas</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">🧠</span>
+                                <strong class="disposition-detail-name">Thinking</strong>
+                                <span class="disposition-tagline">is how we sharpen ideas</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Thinking learners like to "hook things up" and think things through carefully. They're committed to understanding deeply and testing ideas, even when challenging.</p>
+                            <p class="disposition-detail-text">Thinking learners like to "hook things up" and think things through carefully. They're committed to understanding deeply and testing ideas, even when challenging.</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">🤝</span>
-                                <strong style="color: #0f766e;">Communication & Collaboration</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">connect us to others</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">🤝</span>
+                                <strong class="disposition-detail-name">Communication & Collaboration</strong>
+                                <span class="disposition-tagline">connect us to others</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Collaborative learners can take on varying group roles, build on others' contributions, and communicate clearly. They understand others and use feedback effectively.</p>
+                            <p class="disposition-detail-text">Collaborative learners can take on varying group roles, build on others' contributions, and communicate clearly. They understand others and use feedback effectively.</p>
                         </div>
 
-                        <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4; border-radius: 0.75rem; padding: 1rem; border-left: 4px solid #14b8a6;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <span style="font-size: 1.2rem;">⭐</span>
-                                <strong style="color: #0f766e;">Craftsmanship</strong>
-                                <span style="font-size: 0.8rem; color: #64748b;">drives us toward mastery</span>
+                        <div class="disposition-detail-card">
+                            <div class="disposition-header">
+                                <span class="disposition-detail-icon">⭐</span>
+                                <strong class="disposition-detail-name">Craftsmanship</strong>
+                                <span class="disposition-tagline">drives us toward mastery</span>
                             </div>
-                            <p style="font-size: 0.85rem; color: #134e4a; line-height: 1.4;">Caring learners have an ethic of excellence. They have a nose for quality, work on improving products, and know the importance of reviewing and revising.</p>
+                            <p class="disposition-detail-text">Caring learners have an ethic of excellence. They have a nose for quality, work on improving products, and know the importance of reviewing and revising.</p>
                         </div>
                     </div>
                     
@@ -801,13 +868,14 @@
                 <div class="toggle-content" id="subscriptionContent">
                     <div class="toggle-description">
                         <strong>Ready to transform your students' learning?</strong><br> 
-                        Join schools using Learner Threads to develop powerful, confident learners.
+                        Join schools worldwide using Learner Threads to develop powerful, confident learners.
                     </div>
                     
                     <div class="value-prop">
                         <h4>🎓 What Full Access Includes</h4>
                         <p><strong>Complete Navigator:</strong> 8 subjects × 7 dispositions × 9 strategies = 504 research-based learning moves<br>
                         <strong>Full Reflections:</strong> Comprehensive reflection frameworks with examples from every year level<br>
+                        <strong>Teacher Resources:</strong> Implementation guides and professional learning materials</p>
                     </div>
                     
                     <a href="https://buy.stripe.com/5kQcN7c4jcAr0S55hc4Ni03" 
